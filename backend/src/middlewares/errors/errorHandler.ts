@@ -17,8 +17,8 @@ const errorHandler: ErrorRequestHandler = (
     next: NextFunction
 ) => {
     // log error
-    console.log(error.name)
-    console.log(error)
+    console.log("error name: ", error.name)
+    console.log("error: ", error)
 
     if (error instanceof JsonWebTokenError) {
         throw new UnauthorizedError("Invalid or expired token")

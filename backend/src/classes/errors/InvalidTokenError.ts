@@ -1,11 +1,7 @@
-import CustomerError from "./CustomError"
+import BadRequestError from "./BadRequestError"
 
-import { ResponseStatus } from "./types"
-
-export default class InvalidTokenError extends CustomerError {
-    statusCode = ResponseStatus.UNAUTHORIZED
-
-    constructor(public message: string = "Invalid or expired token") {
+export default class InvalidTokenError extends BadRequestError {
+    constructor(public message: string = "Invalid token.") {
         super(message)
     }
 }

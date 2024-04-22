@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
 
 import createUser from "@/services/user/create"
+import createEmailToken from "@/services/auth/jwt/createEmailToken"
 import findUserByEmail from "@/services/user/findByEmail"
 
 import ConflictError from "@/classes/errors/ConflictError"
@@ -26,19 +26,11 @@ const register = async (req: Request, res: Response) => {
         password: hashedPassword,
     })
 
-    const emailToken = jwt.sign(
-        {
-            userId: createdUser._id,
-        },
-        process.env.EMAIL_SECRET,
-        { expiresIn: "10m" }
-    )
+    const emailToken = createEmailToken(createdUser._id)
 
     try {
         await sendVerificationCode(req.body.email, emailToken)
     } catch (error) {
-        console.log("email verification could not be sent: ", error)
-
         throw new EmailSendingError(
             "Failed to send verification email. Please try again later."
         )

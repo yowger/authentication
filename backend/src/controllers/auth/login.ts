@@ -1,19 +1,19 @@
 import bcrypt from "bcrypt"
 
 import findUserByEmail from "@/services/user/findByEmail"
-import createAccessToken from "@/services/auth/createAccessToken"
-import createRefreshToken from "@/services/auth/createRefreshToken"
+import createAccessToken from "@/services/auth/jwt/createAccessToken"
+import createRefreshToken from "@/services/auth/jwt/createRefreshToken"
 
-import BadRequestError from "@/classes/errors/BadRequestError"
 import ForbiddenError from "@/classes/errors/ForbiddenError"
+import NotFoundError from "@/classes/errors/NotFoundError"
 import UnauthorizedError from "@/classes/errors/UnauthorizedError"
 
 import type { Response, Request } from "express"
 
 const login = async (req: Request, res: Response) => {
     const user = await findUserByEmail(req.body.email)
-    if (user) {
-        throw new BadRequestError("User with this email address already exists")
+    if (!user) {
+        throw new NotFoundError("User not found.")
     }
 
     const isPasswordMatch = await bcrypt.compare(

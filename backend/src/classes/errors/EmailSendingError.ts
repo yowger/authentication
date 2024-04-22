@@ -1,13 +1,7 @@
-import CustomerError from "./CustomError"
+import InternalServerError from "./InternalServerError"
 
-import { ResponseStatus } from "./types"
-
-export default class EmailSendingError extends CustomerError {
-    statusCode = ResponseStatus.INTERNAL_SERVER_ERROR
-
-    constructor(
-        public message: string = "There was a problem sending the email."
-    ) {
+export default class EmailSendingError extends InternalServerError {
+    constructor(public message: string = "Invalid or missing token.") {
         super(message)
     }
 }

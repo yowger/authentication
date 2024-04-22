@@ -3,7 +3,8 @@ import cors from "cors"
 import compression from "compression"
 import cookieParser from "cookie-parser"
 
-import authRouter from "@/routes/authRoutes"
+import authRouter from "@/routes/auth"
+import postRouter from "@/routes/post"
 
 import errorHandler from "@/middlewares/errors/errorHandler"
 
@@ -37,6 +38,7 @@ app.use(
 app.use(compression())
 
 app.use("/api", authRouter)
+app.use("/api/post", postRouter)
 
 app.use((req, res, next) => next(new NotFoundError("Api url not found.")))
 

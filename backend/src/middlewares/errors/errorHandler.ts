@@ -1,7 +1,8 @@
+import { Error } from "mongoose"
+
 import { JsonWebTokenError } from "jsonwebtoken"
 
 import CustomerError from "@/classes/errors/CustomError"
-import UnauthorizedError from "@/classes/errors/UnauthorizedError"
 
 import type {
     ErrorRequestHandler,
@@ -20,8 +21,18 @@ const errorHandler: ErrorRequestHandler = (
     console.log("error name: ", error.name)
     console.log("error: ", error)
 
+    if (error instanceof Error.ValidationError) {
+        const message = Object.values(error.errors)
+            .map((error) => error.message.replace(/`/g, ""))
+            .join(", ")
+
+        return res.status(400).json({ message })
+    }
+
     if (error instanceof JsonWebTokenError) {
-        throw new UnauthorizedError("Invalid or expired token")
+        return res.status(400).json({
+            message: "Invalid or expired token.",
+        })
     }
 
     if (error instanceof CustomerError) {

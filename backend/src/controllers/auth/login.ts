@@ -4,6 +4,8 @@ import findUserByEmail from "@/services/user/findByEmail"
 import createAccessToken from "@/services/auth/jwt/createAccessToken"
 import createRefreshToken from "@/services/auth/jwt/createRefreshToken"
 
+import { refreshTokenConfig } from "@/services/auth/config/cookies"
+
 import ForbiddenError from "@/classes/errors/ForbiddenError"
 import NotFoundError from "@/classes/errors/NotFoundError"
 import UnauthorizedError from "@/classes/errors/UnauthorizedError"
@@ -32,12 +34,7 @@ const login = async (req: Request, res: Response) => {
     const accessToken = createAccessToken(user._id)
     const refreshToken = createRefreshToken(user._id)
 
-    res.cookie("refresh_token", refreshToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        maxAge: (process.env.REFRESH_TOKEN_EXPIRY as unknown as number) * 1000,
-    })
+    res.cookie("refresh_token", refreshToken, refreshTokenConfig)
 
     res.status(200).json({
         accessToken,

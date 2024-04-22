@@ -4,13 +4,13 @@ import type { JwtPayload } from "jsonwebtoken"
 
 import { Types } from "mongoose"
 
-type RefreshTokenPayload = {
+type AccessTokenPayload = {
     userId: Types.ObjectId
 } & JwtPayload
 
-export default function verifyRefreshToken(token: string) {
+export default function verifyAccessToken(token: string) {
     return jwt.verify(
         token,
-        process.env.REFRESH_TOKEN_SECRET
-    ) as RefreshTokenPayload
+        process.env.ACCESS_TOKEN_SECRET
+    ) as AccessTokenPayload
 }

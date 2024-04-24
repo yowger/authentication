@@ -5,7 +5,11 @@ import InvalidTokenError from "@/classes/errors/InvalidTokenError"
 import { Types } from "mongoose"
 import type { JwtPayload } from "jsonwebtoken"
 
-type TokenType = "ACCESS_TOKEN" | "REFRESH_TOKEN" | "EMAIL_TOKEN"
+type TokenType =
+    | "ACCESS_TOKEN"
+    | "REFRESH_TOKEN"
+    | "EMAIL_TOKEN"
+    | "FORGOT_PASSWORD"
 
 type TokenConfig = {
     expiresIn: number
@@ -25,6 +29,11 @@ const tokenConfigs: { [key in TokenType]: TokenConfig } = {
         defaultClaims: { userId: Types.ObjectId },
     },
     EMAIL_TOKEN: {
+        secret: process.env.EMAIL_TOKEN_SECRET,
+        expiresIn: process.env.EMAIL_TOKEN_EXPIRY as unknown as number,
+        defaultClaims: { userId: Types.ObjectId },
+    },
+    FORGOT_PASSWORD: {
         secret: process.env.EMAIL_TOKEN_SECRET,
         expiresIn: process.env.EMAIL_TOKEN_EXPIRY as unknown as number,
         defaultClaims: { userId: Types.ObjectId },

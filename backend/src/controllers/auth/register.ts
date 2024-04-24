@@ -1,12 +1,12 @@
 import bcrypt from "bcrypt"
 
 import createUser from "@/services/user/create"
-import createEmailToken from "@/services/auth/jwt/createEmailToken"
 import findUserByEmail from "@/services/user/findByEmail"
 
 import ConflictError from "@/classes/errors/ConflictError"
 import EmailSendingError from "@/classes/errors/EmailSendingError"
 
+import { createToken } from "@/utils/jwt"
 import { sendVerificationCode } from "@/utils/email"
 
 import type { Response, Request } from "express"
@@ -26,7 +26,7 @@ const register = async (req: Request, res: Response) => {
         password: hashedPassword,
     })
 
-    const emailToken = createEmailToken(createdUser._id)
+    const emailToken = createToken("EMAIL_TOKEN", createdUser._id)
 
     try {
         await sendVerificationCode(req.body.email, emailToken)

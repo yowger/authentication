@@ -1,15 +1,15 @@
 import findUserById from "@/services/user/findById"
 import updateUser from "@/services/user/update"
-import verifyEmailToken from "@/services/auth/jwt/verifyEmailToken"
 
 import NotFoundError from "@/classes/errors/NotFoundError"
 
 import type { Response, Request } from "express"
+import { verifyToken } from "@/utils/jwt"
 
 const verify = async (req: Request, res: Response) => {
     const token = req.params.token
 
-    const payload = verifyEmailToken(token)
+    const payload = verifyToken("EMAIL_TOKEN", token)
 
     const user = await findUserById(payload.userId)
 

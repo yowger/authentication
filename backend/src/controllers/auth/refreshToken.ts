@@ -1,10 +1,7 @@
-import createRefreshToken from "@/services/auth/jwt/createRefreshToken"
-
-import createAccessToken from "@/services/auth/jwt/createAccessToken"
-import verifyRefreshToken from "@/services/auth/jwt/verifyRefreshToken"
-
 import InvalidTokenError from "@/classes/errors/InvalidTokenError"
 import MissingTokenError from "@/classes/errors/MissingTokenError"
+
+import { createToken, verifyToken } from "@/utils/jwt"
 
 import { refreshTokenConfig } from "@/services/auth/config/cookies"
 
@@ -17,7 +14,7 @@ const refreshToken = async (req: Request, res: Response) => {
         throw new MissingTokenError("Missing refresh token.")
     }
 
-    const decodedToken = verifyRefreshToken(refreshToken)
+    const decodedToken = verifyToken("REFRESH_TOKEN", refreshToken)
 
     if (!decodedToken) {
         throw new InvalidTokenError("Invalid refresh token.")
@@ -27,12 +24,15 @@ const refreshToken = async (req: Request, res: Response) => {
     const expirationThreshold = 30 * 60 * 1000 // 30 minutes
 
     if (decodedToken.exp - now < expirationThreshold) {
-        const newRefreshToken = createRefreshToken(decodedToken.userId)
+        const newRefreshToken = createToken(
+            "REFRESH_TOKEN",
+            decodedToken.userId
+        )
 
         res.cookie("refresh_token", newRefreshToken, refreshTokenConfig)
     }
 
-    const newAccessToken = createAccessToken(decodedToken.userId)
+    const newAccessToken = verifyToken("ACCESS_TOKEN", decodedToken.userId)
 
     res.status(200).json({
         accessToken: newAccessToken,

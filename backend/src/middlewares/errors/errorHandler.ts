@@ -29,12 +29,6 @@ const errorHandler: ErrorRequestHandler = (
         return res.status(400).json({ message })
     }
 
-    if (error instanceof JsonWebTokenError) {
-        return res.status(400).json({
-            message: "Invalid or expired token.",
-        })
-    }
-
     if (error instanceof CustomerError) {
         return res.status(error.statusCode).json({
             message: error.message,

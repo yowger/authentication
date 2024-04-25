@@ -5,64 +5,66 @@ import InvalidTokenError from "@/classes/errors/InvalidTokenError"
 import { Types } from "mongoose"
 import type { JwtPayload } from "jsonwebtoken"
 
-type TokenType =
-    | "ACCESS_TOKEN"
-    | "REFRESH_TOKEN"
-    | "EMAIL_TOKEN"
-    | "FORGOT_PASSWORD"
+type TokenPayloads = {
+    ACCESS_TOKEN: {
+        userId: Types.ObjectId
+    }
+    REFRESH_TOKEN: {
+        userId: Types.ObjectId
+    }
+    EMAIL_TOKEN: {
+        userId: Types.ObjectId
+    }
+    FORGOT_PASSWORD: {
+        userId: Types.ObjectId
+    }
+}
+
+type TokenType = keyof TokenPayloads
 
 type TokenConfig = {
     expiresIn: number
     secret: string
-    defaultClaims?: Partial<JwtPayload>
 }
 
 const tokenConfigs: { [key in TokenType]: TokenConfig } = {
     ACCESS_TOKEN: {
         secret: process.env.ACCESS_TOKEN_SECRET,
         expiresIn: process.env.ACCESS_TOKEN_EXPIRY as unknown as number,
-        defaultClaims: { userId: Types.ObjectId },
     },
     REFRESH_TOKEN: {
         secret: process.env.REFRESH_TOKEN_SECRET,
         expiresIn: process.env.REFRESH_TOKEN_EXPIRY as unknown as number,
-        defaultClaims: { userId: Types.ObjectId },
     },
     EMAIL_TOKEN: {
         secret: process.env.EMAIL_TOKEN_SECRET,
         expiresIn: process.env.EMAIL_TOKEN_EXPIRY as unknown as number,
-        defaultClaims: { userId: Types.ObjectId },
     },
     FORGOT_PASSWORD: {
-        secret: process.env.EMAIL_TOKEN_SECRET,
-        expiresIn: process.env.EMAIL_TOKEN_EXPIRY as unknown as number,
-        defaultClaims: { userId: Types.ObjectId },
+        secret: process.env.FORGOT_PASSWORD_SECRET,
+        expiresIn: process.env.FORGOT_PASSWORD_EXPIRY as unknown as number,
     },
 }
 
-export function createToken(
-    type: TokenType,
-    payload: JwtPayload,
-    options?: Partial<TokenConfig>
+export function createToken<T extends TokenType>(
+    type: T,
+    payload: TokenPayloads[T]
 ): string {
-    const secretKey = options?.secret || tokenConfigs[type].secret
-    const expiresIn = options?.expiresIn || tokenConfigs[type].expiresIn
-
-    const tokenPayload: JwtPayload & { type?: string } = {
-        ...payload,
-        ...(options?.defaultClaims || {}),
-    }
+    const secretKey = tokenConfigs[type].secret
+    const expiresIn = tokenConfigs[type].expiresIn + "s"
 
     try {
-        return jwt.sign(tokenPayload, secretKey, { expiresIn })
+        return jwt.sign(payload, secretKey, { expiresIn })
     } catch (error) {
         throw new InvalidTokenError()
     }
 }
 
-export function verifyToken(type: TokenType, token: string) {
+export function verifyToken<T extends TokenType>(type: T, token: string) {
+    const secretKey = tokenConfigs[type].secret
+
     try {
-        return jwt.verify(token, tokenConfigs[type].secret) as JwtPayload
+        return jwt.verify(token, secretKey) as TokenPayloads[T] & JwtPayload
     } catch (error) {
         throw new InvalidTokenError()
     }

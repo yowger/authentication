@@ -9,13 +9,37 @@ const transporter = createTransport({
     },
 })
 
-export const sendVerificationCode = async (toEmail: string, token: string) => {
+// todo: change to client url
+export const sendVerificationCodeEmail = async (
+    toEmail: string,
+    token: string
+) => {
     await transporter.sendMail({
         from: process.env.EMAIL_USER,
         to: toEmail,
         subject: "Verify your email",
         text: `Please follow the given link to verify your email 
-        http://localhost:8000/api/verify/${token}  
+        ${process.env.SERVER_URL}/api/verify/${token}  
         Thanks`,
+    })
+}
+
+// todo: change to client url
+export const sendForgotPasswordEmail = async (
+    toEmail: string,
+    token: string
+) => {
+    const expiryInMinutes = Number(process.env.FORGOT_PASSWORD_EXPIRY) / 60
+
+    await transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to: toEmail,
+        subject: "Verify your email",
+        text: `Click the link below to reset your password:
+        ${process.env.SERVER_URL}/api/reset-password/${token}
+        
+        This link will expire in ${expiryInMinutes} minutes.
+        
+        If you did not request a password reset, please ignore this email.`,
     })
 }

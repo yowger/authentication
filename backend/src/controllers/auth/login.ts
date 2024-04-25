@@ -31,8 +31,8 @@ const login = async (req: Request, res: Response) => {
         throw new ForbiddenError("Email verification required.")
     }
 
-    const accessToken = createToken("ACCESS_TOKEN", user._id)
-    const refreshToken = createToken("REFRESH_TOKEN", user._id)
+    const accessToken = createToken("ACCESS_TOKEN", { userId: user._id })
+    const refreshToken = createToken("REFRESH_TOKEN", { userId: user._id })
 
     res.cookie("refresh_token", refreshToken, refreshTokenConfig)
 

@@ -9,9 +9,9 @@ import { verifyToken } from "@/utils/jwt"
 const verify = async (req: Request, res: Response) => {
     const token = req.params.token
 
-    const payload = verifyToken("EMAIL_TOKEN", token)
-
-    const user = await findUserById(payload.userId)
+    const decodedToken = verifyToken("EMAIL_TOKEN", token)
+    
+    const user = await findUserById(decodedToken.userId)
 
     if (!user) {
         throw new NotFoundError("Could not verify, user not found.")

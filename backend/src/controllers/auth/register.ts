@@ -7,7 +7,7 @@ import ConflictError from "@/classes/errors/ConflictError"
 import EmailSendingError from "@/classes/errors/EmailSendingError"
 
 import { createToken } from "@/utils/jwt"
-import { sendVerificationCode } from "@/utils/email"
+import { sendVerificationCodeEmail } from "@/utils/email"
 
 import type { Response, Request } from "express"
 
@@ -26,10 +26,10 @@ const register = async (req: Request, res: Response) => {
         password: hashedPassword,
     })
 
-    const emailToken = createToken("EMAIL_TOKEN", createdUser._id)
+    const emailToken = createToken("EMAIL_TOKEN", { userId: createdUser._id })
 
     try {
-        await sendVerificationCode(req.body.email, emailToken)
+        await sendVerificationCodeEmail(req.body.email, emailToken)
     } catch (error) {
         throw new EmailSendingError(
             "Failed to send verification email. Please try again later."

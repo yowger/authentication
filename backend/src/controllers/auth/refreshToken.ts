@@ -24,15 +24,16 @@ const refreshToken = async (req: Request, res: Response) => {
     const expirationThreshold = 30 * 60 * 1000 // 30 minutes
 
     if (decodedToken.exp - now < expirationThreshold) {
-        const newRefreshToken = createToken(
-            "REFRESH_TOKEN",
-            decodedToken.userId
-        )
+        const newRefreshToken = createToken("REFRESH_TOKEN", {
+            userId: decodedToken.userId,
+        })
 
         res.cookie("refresh_token", newRefreshToken, refreshTokenConfig)
     }
 
-    const newAccessToken = verifyToken("ACCESS_TOKEN", decodedToken.userId)
+    const newAccessToken = createToken("ACCESS_TOKEN", {
+        userId: decodedToken.userId,
+    })
 
     res.status(200).json({
         accessToken: newAccessToken,

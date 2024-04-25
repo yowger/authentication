@@ -2,7 +2,7 @@ import { createTransport } from "nodemailer"
 
 const transporter = createTransport({
     host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT as unknown as number,
+    port: process.env.EMAIL_PORT,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD,
@@ -29,7 +29,7 @@ export const sendForgotPasswordEmail = async (
     toEmail: string,
     token: string
 ) => {
-    const expiryInMinutes = Number(process.env.FORGOT_PASSWORD_EXPIRY) / 60
+    const expiryInMinutes = process.env.FORGOT_PASSWORD_EXPIRY / 60
 
     await transporter.sendMail({
         from: process.env.EMAIL_USER,

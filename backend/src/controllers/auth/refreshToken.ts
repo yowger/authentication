@@ -3,7 +3,7 @@ import MissingTokenError from "@/classes/errors/MissingTokenError"
 
 import { createToken, verifyToken } from "@/utils/jwt"
 
-import { refreshTokenConfig } from "@/services/auth/config/cookies"
+import { refreshTokenConfig } from "@/config/cookies"
 
 import type { Response, Request } from "express"
 

@@ -4,7 +4,7 @@ import findUserByEmail from "@/services/user/findByEmail"
 
 import { createToken } from "@/utils/jwt"
 
-import { refreshTokenConfig } from "@/services/auth/config/cookies"
+import { refreshTokenConfig } from "@/config/cookies"
 
 import ForbiddenError from "@/classes/errors/ForbiddenError"
 import NotFoundError from "@/classes/errors/NotFoundError"

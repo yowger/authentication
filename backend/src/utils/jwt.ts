@@ -30,31 +30,34 @@ type TokenConfig = {
 const tokenConfigs: { [key in TokenType]: TokenConfig } = {
     ACCESS_TOKEN: {
         secret: process.env.ACCESS_TOKEN_SECRET,
-        expiresIn: process.env.ACCESS_TOKEN_EXPIRY as unknown as number,
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
     },
     REFRESH_TOKEN: {
         secret: process.env.REFRESH_TOKEN_SECRET,
-        expiresIn: process.env.REFRESH_TOKEN_EXPIRY as unknown as number,
+        expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
     },
     EMAIL_TOKEN: {
         secret: process.env.EMAIL_TOKEN_SECRET,
-        expiresIn: process.env.EMAIL_TOKEN_EXPIRY as unknown as number,
+        expiresIn: process.env.EMAIL_TOKEN_EXPIRY,
     },
     FORGOT_PASSWORD: {
         secret: process.env.FORGOT_PASSWORD_SECRET,
-        expiresIn: process.env.FORGOT_PASSWORD_EXPIRY as unknown as number,
+        expiresIn: process.env.FORGOT_PASSWORD_EXPIRY,
     },
 }
 
 export function createToken<T extends TokenType>(
     type: T,
-    payload: TokenPayloads[T]
+    payload: TokenPayloads[T],
+    options?: jwt.SignOptions
 ): string {
     const secretKey = tokenConfigs[type].secret
-    const expiresIn = tokenConfigs[type].expiresIn + "s"
+    const expiresIn = options.expiresIn
+        ? options.expiresIn
+        : tokenConfigs[type].expiresIn + "s"
 
     try {
-        return jwt.sign(payload, secretKey, { expiresIn })
+        return jwt.sign(payload, secretKey, { expiresIn, ...options })
     } catch (error) {
         throw new InvalidTokenError()
     }

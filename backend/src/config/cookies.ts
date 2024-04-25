@@ -6,5 +6,5 @@ export const refreshTokenConfig: CookieOptions = {
     // httpOnly: true,
     // secure: true,
     sameSite: "none",
-    maxAge: (process.env.REFRESH_TOKEN_EXPIRY as unknown as number) * 1000,
+    maxAge: process.env.REFRESH_TOKEN_EXPIRY * 1000,
 }

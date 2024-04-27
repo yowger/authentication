@@ -29,7 +29,7 @@ export const sendForgotPasswordEmail = async (
     toEmail: string,
     token: string
 ) => {
-    const expiryInMinutes = process.env.FORGOT_PASSWORD_EXPIRY / 60
+    const expiryInMinutes = process.env.RESET_PASSWORD_TOKEN_EXPIRY / 60
 
     await transporter.sendMail({
         from: process.env.EMAIL_USER,

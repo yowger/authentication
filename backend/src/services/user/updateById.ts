@@ -1,6 +1,11 @@
 import UserModel, { User } from "@/models/User"
 
-const updateUser = async (user: User) => {
+import { Types, UpdateQuery } from "mongoose"
+
+const updateUserById = async (
+    userId: Types.ObjectId,
+    user: UpdateQuery<User>
+) => {
     const now = new Date()
 
     user.updatedAt = now
@@ -10,4 +15,4 @@ const updateUser = async (user: User) => {
         .exec()
 }
 
-export default updateUser
+export default updateUserById

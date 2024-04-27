@@ -1,6 +1,6 @@
 import PostModel, { Post } from "@/models/Post"
 
-const createPost = async (post: Omit<Post, "_id">) => {
+const createPost = async (post: Partial<Omit<Post, "_id">>) => {
     const now = new Date()
 
     post.createdAt = post.updatedAt = now

@@ -1,6 +1,6 @@
 import UserModel, { User } from "@/models/User"
 
-const createUser = async (user: Omit<User, "_id">) => {
+const createUser = async (user: Partial<Omit<User, "_id">>) => {
     const now = new Date()
 
     user.createdAt = user.updatedAt = now

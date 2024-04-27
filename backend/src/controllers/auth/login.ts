@@ -2,7 +2,7 @@ import bcrypt from "bcrypt"
 
 import findUserByEmail from "@/services/user/findByEmail"
 
-import { createToken } from "@/utils/jwt"
+import { generateToken } from "@/utils/jwt"
 
 import { refreshTokenConfig } from "@/config/cookies"
 
@@ -31,8 +31,8 @@ const login = async (req: Request, res: Response) => {
         throw new ForbiddenError("Email verification required.")
     }
 
-    const accessToken = createToken("ACCESS_TOKEN", { userId: user._id })
-    const refreshToken = createToken("REFRESH_TOKEN", { userId: user._id })
+    const accessToken = generateToken("ACCESS_TOKEN", { userId: user._id })
+    const refreshToken = generateToken("REFRESH_TOKEN", { userId: user._id })
 
     res.cookie("refresh_token", refreshToken, refreshTokenConfig)
 

@@ -12,10 +12,10 @@ type TokenPayloads = {
     REFRESH_TOKEN: {
         userId: Types.ObjectId
     }
-    EMAIL_TOKEN: {
+    EMAIL_VERIFY_TOKEN: {
         userId: Types.ObjectId
     }
-    FORGOT_PASSWORD: {
+    RESET_PASSWORD_TOKEN: {
         userId: Types.ObjectId
     }
 }
@@ -36,23 +36,23 @@ const tokenConfigs: { [key in TokenType]: TokenConfig } = {
         secret: process.env.REFRESH_TOKEN_SECRET,
         expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
     },
-    EMAIL_TOKEN: {
-        secret: process.env.EMAIL_TOKEN_SECRET,
-        expiresIn: process.env.EMAIL_TOKEN_EXPIRY,
+    EMAIL_VERIFY_TOKEN: {
+        secret: process.env.EMAIL_VERIFY_TOKEN_SECRET,
+        expiresIn: process.env.EMAIL_VERIFY_TOKEN_EXPIRY,
     },
-    FORGOT_PASSWORD: {
-        secret: process.env.FORGOT_PASSWORD_SECRET,
-        expiresIn: process.env.FORGOT_PASSWORD_EXPIRY,
+    RESET_PASSWORD_TOKEN: {
+        secret: process.env.RESET_PASSWORD_TOKEN_SECRET,
+        expiresIn: process.env.RESET_PASSWORD_TOKEN_EXPIRY,
     },
 }
 
-export function createToken<T extends TokenType>(
+export function generateToken<T extends TokenType>(
     type: T,
     payload: TokenPayloads[T],
     options?: jwt.SignOptions
 ): string {
     const secretKey = tokenConfigs[type].secret
-    const expiresIn = options.expiresIn
+    const expiresIn = options?.expiresIn
         ? options.expiresIn
         : tokenConfigs[type].expiresIn + "s"
 

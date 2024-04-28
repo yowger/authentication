@@ -36,6 +36,8 @@ const schema = new Schema<Token>({
     },
 })
 
+schema.index({ user: 1, type: 1 }, { unique: true })
+
 const TokenModel = model<Token>("Token", schema)
 
 export default TokenModel

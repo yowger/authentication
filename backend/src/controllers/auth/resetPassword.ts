@@ -21,28 +21,27 @@ const resetPassword = async (req: Request, res: Response) => {
         throw new NotFoundError("Could not reset password, user not found.")
     }
 
-    const resetPasswordToken = await findToken({
+    const existingResetPasswordToken = await findToken({
         user: user._id,
         type: TokenType.PASSWORD_RESET_TOKEN,
     })
 
-    if (!resetPasswordToken.token) {
+    if (!existingResetPasswordToken.token) {
         throw new NotFoundError("Could not reset password, token not found.")
-    } else if (resetPasswordToken.token != req.params.token) {
+    } else if (existingResetPasswordToken.token != req.params.token) {
         throw new UnauthorizedError(
             "Invalid password reset token. Please request another password reset"
         )
     }
 
     user.password = req.body.password
-
     await updateUserById(user._id, user)
 
-    resetPasswordToken.token = null
-    resetPasswordToken.expiresAt = null
+    existingResetPasswordToken.token = null
+    existingResetPasswordToken.expiresAt = null
     await updateToken(
         { user: user._id, type: TokenType.PASSWORD_RESET_TOKEN },
-        resetPasswordToken
+        existingResetPasswordToken
     )
 
     res.status(200).json({ message: "Password reset successfully" })

@@ -8,9 +8,9 @@ import asyncHandler from "@/middlewares/errors/asyncHandler"
 import authenticate from "@/middlewares/authenticate"
 import validator from "@/middlewares/validator"
 
-const router = express.Router()
+const postRouter = express.Router()
 
-router
+postRouter
     .route("/")
     .post(
         authenticate,
@@ -18,4 +18,4 @@ router
         asyncHandler(postController.create)
     )
 
-export default router
+export default postRouter

@@ -1,11 +1,14 @@
-import CustomerError from "./CustomError"
+import BaseError from "./BaseError"
 
 import { ResponseStatus } from "./types"
 
-export default class ServiceUnavailableError extends CustomerError {
-    statusCode = ResponseStatus.SERVICE_UNAVAILABLE
-
-    constructor(public message: string = "Service unavailable") {
-        super(message)
+export default class ServiceUnavailableError extends BaseError {
+    constructor(description = "Service unavailable") {
+        super(
+            "ServiceUnavailableError",
+            ResponseStatus.SERVICE_UNAVAILABLE,
+            false,
+            description
+        )
     }
 }

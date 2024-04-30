@@ -1,11 +1,9 @@
-import CustomerError from "./CustomError"
+import BaseError from "./BaseError"
 
 import { ResponseStatus } from "./types"
 
-export default class NotFoundError extends CustomerError {
-    statusCode = ResponseStatus.NOT_FOUND
-
-    constructor(public message: string = "Resource not found.") {
-        super(message)
+export default class NotFoundError extends BaseError {
+    constructor(description = "Resource not found") {
+        super("NotFoundError", ResponseStatus.NOT_FOUND, true, description)
     }
 }

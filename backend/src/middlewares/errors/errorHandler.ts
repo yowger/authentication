@@ -2,7 +2,7 @@ import { Error } from "mongoose"
 
 import { JsonWebTokenError } from "jsonwebtoken"
 
-import CustomerError from "@/classes/errors/CustomError"
+import CustomerError from "@/classes/errors/BaseError"
 
 import type {
     ErrorRequestHandler,
@@ -30,7 +30,7 @@ const errorHandler: ErrorRequestHandler = (
     }
 
     if (error instanceof CustomerError) {
-        return res.status(error.statusCode).json({
+        return res.status(error.httpCode).json({
             message: error.message,
         })
     }

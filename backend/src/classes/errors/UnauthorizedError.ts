@@ -1,11 +1,14 @@
-import CustomerError from "./CustomError"
+import BaseError from "./BaseError"
 
 import { ResponseStatus } from "./types"
 
-export default class UnauthorizedError extends CustomerError {
-    statusCode = ResponseStatus.UNAUTHORIZED
-
-    constructor(public message: string = "Unauthorized") {
-        super(message)
+export default class UnauthorizedError extends BaseError {
+    constructor(description = "Unauthorized access") {
+        super(
+            "UnauthorizedError",
+            ResponseStatus.UNAUTHORIZED,
+            true,
+            description
+        )
     }
 }

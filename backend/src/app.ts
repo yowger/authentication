@@ -5,10 +5,22 @@ import cookieParser from "cookie-parser"
 
 import authRouter from "@/routes/auth"
 import postRouter from "@/routes/post"
+import userRouter from "./routes/user"
 
 import errorHandler from "@/middlewares/errors/errorHandler"
 
 import NotFoundError from "@/classes/errors/NotFoundError"
+
+import { config } from "@/config/env"
+
+if (config.error) {
+    const { details } = config.error
+    const message = details
+        .map((i) => i.message.replace(/['"]+/g, ""))
+        .join(",")
+
+    throw new Error(`Config validation error: ${message}`)
+}
 
 const app = express()
 
@@ -39,6 +51,7 @@ app.use(compression())
 
 app.use("/api", authRouter)
 app.use("/api/post", postRouter)
+app.use("/api/user", userRouter)
 
 app.use((req, res, next) => next(new NotFoundError("Api url not found.")))
 

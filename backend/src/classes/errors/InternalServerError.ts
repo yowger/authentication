@@ -1,11 +1,14 @@
-import CustomerError from "./CustomError"
+import BaseError from "./BaseError"
 
 import { ResponseStatus } from "./types"
 
-export default class InternalServerError extends CustomerError {
-    statusCode = ResponseStatus.INTERNAL_SERVER_ERROR
-
-    constructor(public message: string = "Internal server error.") {
-        super(message)
+export default class InternalServerError extends BaseError {
+    constructor(description = "Internal server error") {
+        super(
+            "InternalServerError",
+            ResponseStatus.INTERNAL_SERVER_ERROR,
+            false,
+            description
+        )
     }
 }

@@ -1,11 +1,9 @@
-import CustomerError from "./CustomError"
+import BaseError from "./BaseError"
 
 import { ResponseStatus } from "./types"
 
-export default class ConflictError extends CustomerError {
-    statusCode = ResponseStatus.CONFLICT
-
-    constructor(public message: string = "Conflict.") {
-        super(message)
+export default class ConflictError extends BaseError {
+    constructor(description = "Resource conflict") {
+        super("ConflictError", ResponseStatus.CONFLICT, true, description)
     }
 }

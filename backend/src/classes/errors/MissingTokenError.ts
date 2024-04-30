@@ -1,7 +1,14 @@
-import BadRequestError from "./BadRequestError"
+import BaseError from "./BaseError"
 
-export default class MissingTokenError extends BadRequestError {
-    constructor(public message: string = "Missing token.") {
-        super(message)
+import { ResponseStatus } from "./types"
+
+export default class MissingTokenError extends BaseError {
+    constructor(description = "Authorization token is missing") {
+        super(
+            "MissingTokenError",
+            ResponseStatus.UNAUTHORIZED,
+            true,
+            description
+        )
     }
 }

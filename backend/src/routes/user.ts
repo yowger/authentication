@@ -1,5 +1,12 @@
 import express from "express"
 
-const router = express.Router()
+import userController from "@/controllers/user"
 
-export default router
+import asyncHandler from "@/middlewares/errors/asyncHandler"
+import authenticate from "@/middlewares/authenticate"
+
+const userRouter = express.Router()
+
+userRouter.route("/me").get(authenticate, asyncHandler(userController.read))
+
+export default userRouter

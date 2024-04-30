@@ -1,7 +1,14 @@
-import InternalServerError from "./InternalServerError"
+import BaseError from "./BaseError"
 
-export default class EmailSendingError extends InternalServerError {
-    constructor(public message: string = "Invalid or missing token.") {
-        super(message)
+import { ResponseStatus } from "./types"
+
+export default class EmailSendingError extends BaseError {
+    constructor(description = "Failed to send email", cause?: Error) {
+        super(
+            "EmailSendingError",
+            ResponseStatus.INTERNAL_SERVER_ERROR,
+            false,
+            description
+        )
     }
 }

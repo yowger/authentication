@@ -7,22 +7,22 @@ import authSchema from "@/services/auth/schema"
 import asyncHandler from "@/middlewares/errors/asyncHandler"
 import validator from "@/middlewares/validator"
 
-const router = express.Router()
+const authRouter = express.Router()
 
-router
+authRouter
     .route("/login")
     .post(validator(authSchema.login), asyncHandler(authController.login))
-router.route("/logout").post(asyncHandler(authController.logout))
-router
+authRouter.route("/logout").post(asyncHandler(authController.logout))
+authRouter
     .route("/register")
     .post(validator(authSchema.register), asyncHandler(authController.register))
-router.route("/verify/:token").get(asyncHandler(authController.verify))
-router.route("/refresh").post(asyncHandler(authController.refreshToken))
-router
+authRouter.route("/verify/:token").get(asyncHandler(authController.verify))
+authRouter.route("/refresh").post(asyncHandler(authController.refreshToken))
+authRouter
     .route("/forgot-password")
     .post(asyncHandler(authController.forgotPassword))
-router
+authRouter
     .route("/reset-password/:token")
     .post(asyncHandler(authController.resetPassword))
 
-export default router
+export default authRouter

@@ -1,7 +1,14 @@
-import BadRequestError from "./BadRequestError"
+import BaseError from "./BaseError"
 
-export default class InvalidTokenError extends BadRequestError {
-    constructor(public message: string = "Invalid or expired token.") {
-        super(message)
+import { ResponseStatus } from "./types"
+
+export default class InvalidTokenError extends BaseError {
+    constructor(description = "Invalid token provided") {
+        super(
+            "InvalidTokenError",
+            ResponseStatus.UNAUTHORIZED,
+            true,
+            description
+        )
     }
 }

@@ -1,11 +1,9 @@
-import CustomerError from "./CustomError"
+import BaseError from "./BaseError"
 
 import { ResponseStatus } from "./types"
 
-export default class ForbiddenError extends CustomerError {
-    statusCode = ResponseStatus.FORBIDDEN
-
-    constructor(public message: string = "Access denied.") {
-        super(message)
+export default class ForbiddenError extends BaseError {
+    constructor(description = "Access forbidden") {
+        super("ForbiddenError", ResponseStatus.FORBIDDEN, true, description)
     }
 }

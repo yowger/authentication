@@ -1,11 +1,9 @@
-import CustomerError from "./CustomError"
+import BaseError from "./BaseError"
 
 import { ResponseStatus } from "./types"
 
-export default class BadRequestError extends CustomerError {
-    statusCode = ResponseStatus.BAD_REQUEST
-
-    constructor(public message: string = "Bad Request.") {
-        super(message)
+export default class BadRequestError extends BaseError {
+    constructor(description = "Bad request") {
+        super("BadRequestError", ResponseStatus.BAD_REQUEST, true, description)
     }
 }

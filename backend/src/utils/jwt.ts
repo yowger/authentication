@@ -48,21 +48,31 @@ export function generateToken<T extends TokenType>(
     type: T,
     payload: TokenPayloads[T],
     options?: jwt.SignOptions
-): string {
-    const secretKey = tokenConfigs[type].secret
-    const expiresIn = options?.expiresIn
-        ? options.expiresIn
-        : tokenConfigs[type].expiresIn + "s"
+): string | null {
+    try {
+        const secretKey = tokenConfigs[type].secret
+        const expiresIn = options?.expiresIn
+            ? options.expiresIn
+            : tokenConfigs[type].expiresIn + "s"
 
-    return jwt.sign(payload, secretKey, { expiresIn, ...options })
+        return jwt.sign(payload, secretKey, { expiresIn, ...options })
+    } catch (error) {
+        // todo log
+        console.log("Error generating token: ", error)
+        return null
+    }
 }
 
-export function verifyToken<T extends TokenType>(type: T, token: string) {
-    const secretKey = tokenConfigs[type].secret
-
+export function verifyToken<T extends TokenType>(
+    type: T,
+    token: string
+): TokenPayloads[T] | null {
     try {
+        const secretKey = tokenConfigs[type].secret
+
         return jwt.verify(token, secretKey) as TokenPayloads[T] & JwtPayload
     } catch (error) {
+        // todo log
         console.log("Error verifying token: ", error)
         return null
     }

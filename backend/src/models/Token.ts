@@ -35,6 +35,8 @@ const schema = new Schema<Token>({
     },
     expiresAt: {
         type: Schema.Types.Date,
+        required: true,
+        index: { expires: 0 },
     },
     createdAt: {
         type: Schema.Types.Date,

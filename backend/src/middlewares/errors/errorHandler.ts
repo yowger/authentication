@@ -1,9 +1,6 @@
-import jwt from "jsonwebtoken"
-
-import { Error } from "mongoose"
-
 import BaseError from "@/classes/errors/BaseError"
 
+import { Error } from "mongoose"
 import type {
     ErrorRequestHandler,
     Request,

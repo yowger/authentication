@@ -1,18 +1,19 @@
 import bcrypt from "bcrypt"
 
 import createUser from "@/services/user/create"
-import createToken from "@/services/auth/token/create"
+import createToken from "@/services/token/create"
 import findUserByEmail from "@/services/user/findByEmail"
+import removeUserById from "@/services/user/remove"
 
 import ConflictError from "@/classes/errors/ConflictError"
 import EmailSendingError from "@/classes/errors/EmailSendingError"
+import InternalServerError from "@/classes/errors/InternalServerError"
 
 import { generateToken } from "@/utils/jwt"
 import { sendVerificationCodeEmail } from "@/utils/email"
 
-import { TokenType } from "@/models/Token"
-
 import type { Response, Request } from "express"
+import { TOKEN_TYPE } from "@/types/types"
 
 const register = async (req: Request, res: Response) => {
     const user = await findUserByEmail(req.body.email)
@@ -29,23 +30,26 @@ const register = async (req: Request, res: Response) => {
         password: hashedPassword,
     })
 
-    const emailToken = generateToken("EMAIL_VERIFY_TOKEN", {
+    const verificationToken = generateToken(TOKEN_TYPE.EMAIL_VERIFY_TOKEN, {
         userId: createdUser._id,
     })
+    if (!verificationToken) {
+        await removeUserById(createdUser._id)
+        throw new InternalServerError("Failed to generate email verification.")
+    }
 
     const expirationTime = new Date(
         Date.now() + process.env.EMAIL_VERIFY_TOKEN_EXPIRY * 1000
     )
-
     await createToken({
         user: createdUser._id,
-        type: TokenType.EMAIL_VERIFY_TOKEN,
-        token: emailToken,
+        type: TOKEN_TYPE.EMAIL_VERIFY_TOKEN,
+        token: verificationToken,
         expiresAt: expirationTime,
     })
 
     try {
-        await sendVerificationCodeEmail(req.body.email, emailToken)
+        await sendVerificationCodeEmail(req.body.email, verificationToken)
     } catch (error) {
         throw new EmailSendingError(
             "Failed to send verification email. Please try again later."

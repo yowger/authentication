@@ -19,7 +19,7 @@ export const sendVerificationCodeEmail = async (
         to: toEmail,
         subject: "Verify your email",
         text: `Please follow the given link to verify your email 
-        ${process.env.SERVER_URL}/api/verify/${token}  
+        ${process.env.CLIENT_URL}/api/verify/${token}  
         Thanks`,
     })
 }
@@ -29,14 +29,14 @@ export const sendForgotPasswordEmail = async (
     toEmail: string,
     token: string
 ) => {
-    const expiryInMinutes = process.env.RESET_PASSWORD_TOKEN_EXPIRY / 60
+    const expiryInMinutes = process.env.PASSWORD_RESET_TOKEN_EXPIRY / 60
 
     await transporter.sendMail({
         from: process.env.EMAIL_USER,
         to: toEmail,
         subject: "Verify your email",
         text: `Click the link below to reset your password:
-        ${process.env.SERVER_URL}/api/reset-password/${token}
+        ${process.env.CLIENT_URL}/api/reset-password/${token}
         
         This link will expire in ${expiryInMinutes} minutes.
         

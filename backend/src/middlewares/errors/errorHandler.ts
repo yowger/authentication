@@ -1,8 +1,8 @@
+import jwt from "jsonwebtoken"
+
 import { Error } from "mongoose"
 
-import { JsonWebTokenError } from "jsonwebtoken"
-
-import CustomerError from "@/classes/errors/BaseError"
+import BaseError from "@/classes/errors/BaseError"
 
 import type {
     ErrorRequestHandler,
@@ -29,7 +29,7 @@ const errorHandler: ErrorRequestHandler = (
         return res.status(400).json({ message })
     }
 
-    if (error instanceof CustomerError) {
+    if (error instanceof BaseError) {
         return res.status(error.httpCode).json({
             message: error.message,
         })

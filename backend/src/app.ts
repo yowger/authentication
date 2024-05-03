@@ -1,3 +1,5 @@
+import { config } from "@/config/env"
+
 import express from "express"
 import cors from "cors"
 import compression from "compression"
@@ -10,8 +12,6 @@ import userRouter from "./routes/user"
 import errorHandler from "@/middlewares/errors/errorHandler"
 
 import NotFoundError from "@/classes/errors/NotFoundError"
-
-import { config } from "@/config/env"
 
 if (config.error) {
     const { details } = config.error

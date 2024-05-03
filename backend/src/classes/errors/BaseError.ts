@@ -1,6 +1,6 @@
 import type { ResponseStatus } from "./types"
 
-export default class CustomError extends Error {
+export default class BaseError extends Error {
     public readonly name: string
     public readonly httpCode: ResponseStatus
     public readonly isOperational: boolean

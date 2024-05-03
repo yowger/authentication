@@ -1,24 +1,19 @@
 import jwt from "jsonwebtoken"
 
-import { Types } from "mongoose"
 import type { JwtPayload } from "jsonwebtoken"
+import { Types } from "mongoose"
+import { type TokenType, TOKEN_TYPE } from "@/types/types"
 
-type TokenPayloads = {
-    ACCESS_TOKEN: {
-        userId: Types.ObjectId
-    }
-    REFRESH_TOKEN: {
-        userId: Types.ObjectId
-    }
-    EMAIL_VERIFY_TOKEN: {
-        userId: Types.ObjectId
-    }
-    RESET_PASSWORD_TOKEN: {
-        userId: Types.ObjectId
-    }
-}
-
-type TokenType = keyof TokenPayloads
+type TokenPayload<T extends TokenType> =
+    T extends typeof TOKEN_TYPE.ACCESS_TOKEN
+        ? { userId: Types.ObjectId }
+        : T extends typeof TOKEN_TYPE.EMAIL_VERIFY_TOKEN
+        ? { userId: Types.ObjectId }
+        : T extends typeof TOKEN_TYPE.REFRESH_TOKEN
+        ? { userId: Types.ObjectId }
+        : T extends typeof TOKEN_TYPE.PASSWORD_RESET_TOKEN
+        ? { userId: Types.ObjectId }
+        : never
 
 type TokenConfig = {
     expiresIn: number
@@ -38,15 +33,15 @@ const tokenConfigs: { [key in TokenType]: TokenConfig } = {
         secret: process.env.EMAIL_VERIFY_TOKEN_SECRET,
         expiresIn: process.env.EMAIL_VERIFY_TOKEN_EXPIRY,
     },
-    RESET_PASSWORD_TOKEN: {
-        secret: process.env.RESET_PASSWORD_TOKEN_SECRET,
-        expiresIn: process.env.RESET_PASSWORD_TOKEN_EXPIRY,
+    PASSWORD_RESET_TOKEN: {
+        secret: process.env.PASSWORD_RESET_TOKEN_SECRET,
+        expiresIn: process.env.PASSWORD_RESET_TOKEN_EXPIRY,
     },
 }
 
 export function generateToken<T extends TokenType>(
     type: T,
-    payload: TokenPayloads[T],
+    payload: TokenPayload<T>,
     options?: jwt.SignOptions
 ): string | null {
     try {
@@ -66,11 +61,11 @@ export function generateToken<T extends TokenType>(
 export function verifyToken<T extends TokenType>(
     type: T,
     token: string
-): TokenPayloads[T] | null {
+): (TokenPayload<T> & JwtPayload) | null {
     try {
         const secretKey = tokenConfigs[type].secret
 
-        return jwt.verify(token, secretKey) as TokenPayloads[T] & JwtPayload
+        return jwt.verify(token, secretKey) as TokenPayload<T> & JwtPayload
     } catch (error) {
         // todo log
         console.log("Error verifying token: ", error)

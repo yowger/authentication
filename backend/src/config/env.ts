@@ -17,11 +17,11 @@ export type EnvVars = {
     ACCESS_TOKEN_SECRET: string
     REFRESH_TOKEN_SECRET: string
     EMAIL_VERIFY_TOKEN_SECRET: string
-    RESET_PASSWORD_TOKEN_SECRET: string
+    PASSWORD_RESET_TOKEN_SECRET: string
     ACCESS_TOKEN_EXPIRY: number
     REFRESH_TOKEN_EXPIRY: number
     EMAIL_VERIFY_TOKEN_EXPIRY: number
-    RESET_PASSWORD_TOKEN_EXPIRY: number
+    PASSWORD_RESET_TOKEN_EXPIRY: number
 }
 
 const envSchema = joi.object<EnvVars>().keys({
@@ -37,11 +37,11 @@ const envSchema = joi.object<EnvVars>().keys({
     ACCESS_TOKEN_SECRET: joi.string().required(),
     REFRESH_TOKEN_SECRET: joi.string().required(),
     EMAIL_VERIFY_TOKEN_SECRET: joi.string().required(),
-    RESET_PASSWORD_TOKEN_SECRET: joi.string().required(),
+    PASSWORD_RESET_TOKEN_SECRET: joi.string().required(),
     ACCESS_TOKEN_EXPIRY: joi.number().positive().required(),
     REFRESH_TOKEN_EXPIRY: joi.number().positive().required(),
     EMAIL_VERIFY_TOKEN_EXPIRY: joi.number().positive().required(),
-    RESET_PASSWORD_TOKEN_EXPIRY: joi.number().positive().required(),
+    PASSWORD_RESET_TOKEN_EXPIRY: joi.number().positive().required(),
 })
 
 export const config = envSchema.validate(process.env, { allowUnknown: true })

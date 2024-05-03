@@ -1,4 +1,3 @@
-import InvalidTokenError from "@/classes/errors/InvalidTokenError"
 import MissingTokenError from "@/classes/errors/MissingTokenError"
 
 import { generateToken, verifyToken } from "@/utils/jwt"
@@ -15,10 +14,6 @@ const refreshToken = async (req: Request, res: Response) => {
     }
 
     const decodedToken = verifyToken("REFRESH_TOKEN", refreshToken)
-
-    if (!decodedToken) {
-        throw new InvalidTokenError("Invalid refresh token.")
-    }
 
     const now = Date.now()
     const expirationThreshold = 30 * 60 * 1000 // 30 minutes

@@ -5,6 +5,7 @@ import register from "./register"
 import verify from "./verify"
 import forgotPassword from "./forgotPassword"
 import resetPassword from "./resetPassword"
+import resendVerification from "./resendVerification"
 
 const authController = {
     login,
@@ -14,6 +15,7 @@ const authController = {
     verify,
     forgotPassword,
     resetPassword,
+    resendVerification,
 }
 
 export default authController

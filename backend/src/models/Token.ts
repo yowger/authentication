@@ -1,18 +1,21 @@
 import { model, Schema } from "mongoose"
 
+import { TOKEN_TYPE } from "@/types/types"
 import type { Types } from "mongoose"
 
-export enum TokenType {
-    EMAIL_VERIFY_TOKEN = "EMAIL_VERIFY_TOKEN",
-    PASSWORD_RESET_TOKEN = "PASSWORD_RESET_TOKEN",
-}
+export const { EMAIL_VERIFY_TOKEN, PASSWORD_RESET_TOKEN } = TOKEN_TYPE
+export type TokenTypeKey =
+    | typeof EMAIL_VERIFY_TOKEN
+    | typeof PASSWORD_RESET_TOKEN
 
 export interface Token {
     _id: Types.ObjectId
     user: Types.ObjectId
-    type: TokenType
+    type: TokenTypeKey
     token: string
     expiresAt: Date
+    createdAt?: Date
+    updatedAt?: Date
 }
 
 const schema = new Schema<Token>({
@@ -23,7 +26,7 @@ const schema = new Schema<Token>({
     },
     type: {
         type: Schema.Types.String,
-        enum: Object.values(TokenType),
+        enum: [EMAIL_VERIFY_TOKEN, PASSWORD_RESET_TOKEN],
         required: true,
     },
     token: {
@@ -32,7 +35,16 @@ const schema = new Schema<Token>({
     },
     expiresAt: {
         type: Schema.Types.Date,
-        index: { expires: 0 },
+    },
+    createdAt: {
+        type: Schema.Types.Date,
+        default: Date.now,
+        select: false,
+    },
+    updatedAt: {
+        type: Schema.Types.Date,
+        default: Date.now,
+        select: false,
     },
 })
 

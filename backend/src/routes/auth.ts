@@ -16,7 +16,7 @@ authRouter.route("/logout").post(asyncHandler(authController.logout))
 authRouter
     .route("/register")
     .post(validator(authSchema.register), asyncHandler(authController.register))
-authRouter.route("/verify/:token").get(asyncHandler(authController.verify))
+authRouter.route("/verify/:token").post(asyncHandler(authController.verify))
 authRouter.route("/refresh").post(asyncHandler(authController.refreshToken))
 authRouter
     .route("/forgot-password")
@@ -24,5 +24,8 @@ authRouter
 authRouter
     .route("/reset-password/:token")
     .post(asyncHandler(authController.resetPassword))
+authRouter
+    .route("/resend-verification")
+    .post(asyncHandler(authController.resendVerification))
 
 export default authRouter

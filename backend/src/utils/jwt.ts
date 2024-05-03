@@ -1,11 +1,7 @@
 import jwt from "jsonwebtoken"
 
-import InvalidTokenError from "@/classes/errors/InvalidTokenError"
-
 import { Types } from "mongoose"
 import type { JwtPayload } from "jsonwebtoken"
-import ExpiredTokenError from "@/classes/errors/ExpiredTokenError"
-import InternalServerError from "@/classes/errors/InternalServerError"
 
 type TokenPayloads = {
     ACCESS_TOKEN: {
@@ -53,34 +49,21 @@ export function generateToken<T extends TokenType>(
     payload: TokenPayloads[T],
     options?: jwt.SignOptions
 ): string {
-    try {
-        const secretKey = tokenConfigs[type].secret
-        const expiresIn = options?.expiresIn
-            ? options.expiresIn
-            : tokenConfigs[type].expiresIn + "s"
+    const secretKey = tokenConfigs[type].secret
+    const expiresIn = options?.expiresIn
+        ? options.expiresIn
+        : tokenConfigs[type].expiresIn + "s"
 
-        return jwt.sign(payload, secretKey, { expiresIn, ...options })
-    } catch (error) {
-        if (error instanceof jwt.JsonWebTokenError) {
-            throw new InvalidTokenError()
-        } else {
-            throw new InternalServerError()
-        }
-    }
+    return jwt.sign(payload, secretKey, { expiresIn, ...options })
 }
 
 export function verifyToken<T extends TokenType>(type: T, token: string) {
-    try {
-        const secretKey = tokenConfigs[type].secret
+    const secretKey = tokenConfigs[type].secret
 
+    try {
         return jwt.verify(token, secretKey) as TokenPayloads[T] & JwtPayload
     } catch (error) {
-        if (error instanceof jwt.TokenExpiredError) {
-            throw new ExpiredTokenError()
-        } else if (error instanceof jwt.JsonWebTokenError) {
-            throw new InvalidTokenError()
-        } else {
-            throw new InternalServerError()
-        }
+        console.log("Error verifying token: ", error)
+        return null
     }
 }

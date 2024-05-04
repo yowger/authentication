@@ -19,8 +19,7 @@ type TokenConfig = {
     expiresIn: number
     secret: string
 }
-
-const tokenConfigs: { [key in TokenType]: TokenConfig } = {
+const tokenConfigs: Record<TokenType, TokenConfig> = {
     ACCESS_TOKEN: {
         secret: process.env.ACCESS_TOKEN_SECRET,
         expiresIn: process.env.ACCESS_TOKEN_EXPIRY,

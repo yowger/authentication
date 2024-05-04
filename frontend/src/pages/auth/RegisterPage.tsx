@@ -1,8 +1,12 @@
+import { useNavigate } from "react-router-dom"
+
 import RegisterForm from "@/components/forms/RegisterForm"
 
 export default function RegisterPage() {
+    const navigate = useNavigate()
+
     const onSuccess = () => {
-        console.log("success")
+        navigate(`/register-confirm`)
     }
 
     return (

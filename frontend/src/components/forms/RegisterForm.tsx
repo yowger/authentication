@@ -1,6 +1,10 @@
-import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react"
+import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
+
+import { useRegister } from "@/api/auth/useRegister"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -12,8 +16,6 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Link } from "react-router-dom"
-import { useRegister } from "@/api/auth/useRegister"
 
 const formSchema = z.object({
     name: z.string().min(1, {
@@ -35,20 +37,39 @@ const formSchema = z.object({
 })
 
 type RegisterFormProps = {
-    onSuccess: () => void
+    onSuccess: (userId: string) => void
 }
 
 export default function RegisterForm({ onSuccess }: RegisterFormProps) {
     const registerMutation = useRegister()
-    console.log("🚀 ~ onSubmit ~ registerMutation:", registerMutation)
+
+    const [errorMessage, setErrorMessage] = useState("")
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
     })
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        registerMutation.mutate({ data: values })
-        onSuccess()
+        registerMutation.mutate(
+            { data: values },
+            {
+                onSuccess: () => {
+                    onSuccess()
+                    setErrorMessage("")
+                },
+                onError: (error) => {
+                    const status = error.response?.status
+
+                    if (status === 409) {
+                        setErrorMessage("Email already taken")
+                    } else {
+                        setErrorMessage(
+                            "Registration Failed. Please try again later"
+                        )
+                    }
+                },
+            }
+        )
     }
 
     return (
@@ -100,6 +121,8 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
                             </FormItem>
                         )}
                     />
+
+                    {errorMessage && <FormMessage>{errorMessage}</FormMessage>}
 
                     <Link to="/login">Login instead</Link>
                     <Button type="submit">Sign up</Button>

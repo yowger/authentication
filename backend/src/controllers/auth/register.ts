@@ -48,13 +48,13 @@ const register = async (req: Request, res: Response) => {
         expiresAt: expirationTime,
     })
 
-    try {
-        await sendVerificationCodeEmail(req.body.email, verificationToken)
-    } catch (error) {
-        throw new EmailSendingError(
-            "Failed to send verification email. Please try again later."
-        )
-    }
+    await sendVerificationCodeEmail(req.body.email, verificationToken).catch(
+        (error) => {
+            throw new EmailSendingError(
+                "Failed to send verification email. Please try again later."
+            )
+        }
+    )
 
     res.status(201).json({
         message: "Registration successful. Please verify your email.",

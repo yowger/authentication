@@ -14,7 +14,6 @@ const refreshToken = async (req: Request, res: Response) => {
 
     const decodedToken = verifyToken("REFRESH_TOKEN", refreshToken)
 
-
     const now = Date.now()
     const expirationThreshold = 30 * 60 * 1000 // 30 minutes
     if (decodedToken.exp - now < expirationThreshold) {

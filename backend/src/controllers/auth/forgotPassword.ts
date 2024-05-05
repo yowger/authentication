@@ -1,6 +1,7 @@
 import findUserByEmail from "@/services/user/findByEmail"
 import findToken from "@/services/token/find"
 
+import EmailSendingError from "@/classes/errors/EmailSendingError"
 import NotFoundError from "@/classes/errors/NotFoundError"
 
 import { generateToken } from "@/utils/jwt"
@@ -44,7 +45,13 @@ const forgotPassword = async (req: Request, res: Response) => {
         expiresAt: expirationTime,
     })
 
-    await sendForgotPasswordEmail(req.body.email, newResetPasswordToken)
+    await sendForgotPasswordEmail(req.body.email, newResetPasswordToken).catch(
+        (error) => {
+            throw new EmailSendingError(
+                "Failed to send reset password email. Please try again later."
+            )
+        }
+    )
 
     res.status(200).json({ message: "Password reset link sent to your email." })
 }

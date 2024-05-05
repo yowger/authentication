@@ -48,13 +48,13 @@ const resendVerification = async (req: Request, res: Response) => {
     existingToken.updatedAt = new Date()
     await updateToken(existingToken)
 
-    try {
-        await sendVerificationCodeEmail(req.body.email, verificationToken)
-    } catch (error) {
-        throw new EmailSendingError(
-            "Failed to send verification email. Please try again later."
-        )
-    }
+    await sendVerificationCodeEmail(req.body.email, verificationToken).catch(
+        (error) => {
+            throw new EmailSendingError(
+                "Failed to send verification email. Please try again later."
+            )
+        }
+    )
 
     res.status(200).json({
         message: "Email verification send. Please check your email.",

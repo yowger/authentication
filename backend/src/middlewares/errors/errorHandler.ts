@@ -16,7 +16,7 @@ const errorHandler: ErrorRequestHandler = (
     next: NextFunction
 ) => {
     if (error instanceof Error.ValidationError) {
-        logger.warn("validation error: ", error)
+        logger.warn("Validation error: ", error)
 
         const message = Object.values(error.errors)
             .map((error) => error.message.replace(/`/g, ""))
@@ -27,7 +27,7 @@ const errorHandler: ErrorRequestHandler = (
 
     if (error instanceof BaseError) {
         if (!error.isOperational) {
-            logger.error("non operational base error: ", error)
+            logger.error("Non operational base error: ", error)
         }
 
         return res.status(error.httpCode).json({

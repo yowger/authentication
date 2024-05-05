@@ -25,7 +25,7 @@ if (config.error) {
         .map((i) => i.message.replace(/['"]+/g, ""))
         .join(",")
 
-    throw new Error(`Config validation error: ${message}`)
+    throw new Error(`Critical environment variable missing: ${message}`)
 }
 
 const app = express()

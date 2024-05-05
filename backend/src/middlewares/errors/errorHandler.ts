@@ -7,6 +7,7 @@ import type {
     Response,
     NextFunction,
 } from "express"
+import { logger } from "@/utils/logger"
 
 const errorHandler: ErrorRequestHandler = (
     error: Error,
@@ -14,11 +15,9 @@ const errorHandler: ErrorRequestHandler = (
     res: Response,
     next: NextFunction
 ) => {
-    // log error
-    console.log("error name: ", error.name)
-    console.log("error: ", error)
-
     if (error instanceof Error.ValidationError) {
+        logger.warn("validation error: ", error)
+
         const message = Object.values(error.errors)
             .map((error) => error.message.replace(/`/g, ""))
             .join(", ")
@@ -27,10 +26,16 @@ const errorHandler: ErrorRequestHandler = (
     }
 
     if (error instanceof BaseError) {
+        if (!error.isOperational) {
+            logger.error("non operational base error: ", error)
+        }
+
         return res.status(error.httpCode).json({
             message: error.message,
         })
     }
+
+    logger.error("Internal server error: ", error)
 
     return res.status(500).json({
         message: "Internal server error",

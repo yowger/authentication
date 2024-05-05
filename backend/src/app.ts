@@ -13,6 +13,12 @@ import errorHandler from "@/middlewares/errors/errorHandler"
 
 import NotFoundError from "@/classes/errors/NotFoundError"
 
+import { logger } from "./utils/logger"
+
+process.on("uncaughtException", (error) => {
+    logger.error("error", error)
+})
+
 if (config.error) {
     const { details } = config.error
     const message = details

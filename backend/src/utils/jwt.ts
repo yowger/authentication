@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken"
 
+import { logger } from "@/utils/logger"
+
 import type { JwtPayload } from "jsonwebtoken"
 import { Types } from "mongoose"
 import { type TokenType, TOKEN_TYPE } from "@/types/types"
@@ -51,8 +53,10 @@ export function generateToken<T extends TokenType>(
 
         return jwt.sign(payload, secretKey, { expiresIn, ...options })
     } catch (error) {
-        // todo log
-        console.log("Error generating token: ", error)
+        if (error instanceof Error) {
+            logger.error(`Error generating token: (type: ${type})`, error)
+        }
+
         return null
     }
 }
@@ -66,8 +70,10 @@ export function verifyToken<T extends TokenType>(
 
         return jwt.verify(token, secretKey) as TokenPayload<T> & JwtPayload
     } catch (error) {
-        // todo log
-        console.log("Error verifying token: ", error)
+        if (error instanceof Error) {
+            logger.error(`Error verifying token (type: ${type})`, error)
+        }
+
         return null
     }
 }

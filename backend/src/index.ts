@@ -4,20 +4,44 @@ import mongoose from "mongoose"
 
 import app from "./app"
 
+import { logger } from "@/utils/logger"
+
 import type { Error as MongoError } from "mongoose"
 
 mongoose.connect(process.env.DATABASE)
 
+mongoose.connection.on("connected", () => {
+    logger.info("Mongoose default connection open")
+})
+
 mongoose.connection.on("error", (error: MongoError) => {
-    console.error(`mongoose connection error: ${error.message}`)
+    logger.error("Mongoose default connection error", error)
+})
+
+mongoose.connection.on("disconnected", () => {
+    logger.info("Mongoose default connection disconnected")
+})
+
+process.on("SIGINT", () => {
+    mongoose.connection.close().finally(() => {
+        logger.info(
+            "Mongoose default connection disconnected through app termination"
+        )
+        process.exit(0)
+    })
 })
 
 app.set("port", process.env.PORT || 8000)
 
-const server = app.listen(app.get("port"), () => {
-    const address = server.address()
+const port = app.get("port")
 
-    if (typeof address !== "string") {
-        console.log(`[server]: Server listening on port ${address?.port}`)
-    }
-})
+const server = app
+    .listen(port, () => {
+        const address = server.address()
+        if (typeof address !== "string") {
+            logger.info(`server running on port: ${address?.port}`)
+        }
+    })
+    .on("error", (error) => {
+        logger.error(error)
+    })

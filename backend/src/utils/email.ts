@@ -9,7 +9,6 @@ const transporter = createTransport({
     },
 })
 
-// todo: change to client url
 export const sendVerificationCodeEmail = async (
     toEmail: string,
     token: string
@@ -24,7 +23,6 @@ export const sendVerificationCodeEmail = async (
     })
 }
 
-// todo: change to client url
 export const sendForgotPasswordEmail = async (
     toEmail: string,
     token: string

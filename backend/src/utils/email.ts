@@ -22,12 +22,12 @@ export const sendVerificationCodeEmail = async (
                 to: toEmail,
                 subject: "Verify your email",
                 text: `Please follow the given link to verify your email 
-            ${process.env.CLIENT_URL}/api/verify/${token}  
+            ${process.env.CLIENT_URL}/verify/${token}  
             Thanks`,
             },
             function (error, info) {
                 if (error) {
-                    logger.error("Error sending verification email:", error)
+                    logger.error("Error sending verification email: ", error)
 
                     reject(error)
                 } else {
@@ -51,7 +51,7 @@ export const sendForgotPasswordEmail = async (
                 to: toEmail,
                 subject: "Verify your email",
                 text: `Click the link below to reset your password:
-        ${process.env.CLIENT_URL}/api/reset-password/${token}
+        ${process.env.CLIENT_URL}/reset-password/${token}
         
         This link will expire in ${expiryInMinutes} minutes.
         

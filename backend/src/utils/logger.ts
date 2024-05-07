@@ -7,9 +7,8 @@ import {
 } from "winston"
 import DailyRotateFile from "winston-daily-rotate-file"
 import fs from "fs"
-import path from "path"
 
-const logDir = path.join(__dirname, "logs")
+const logDir = process.env.LOG_DIR
 if (!fs.existsSync(logDir)) {
     fs.mkdirSync(logDir)
 }

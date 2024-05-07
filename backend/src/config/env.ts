@@ -22,6 +22,7 @@ export type EnvVars = {
     REFRESH_TOKEN_EXPIRY: number
     EMAIL_VERIFY_TOKEN_EXPIRY: number
     PASSWORD_RESET_TOKEN_EXPIRY: number
+    LOG_DIR: string
 }
 
 const envSchema = joi.object<EnvVars>().keys({
@@ -42,6 +43,7 @@ const envSchema = joi.object<EnvVars>().keys({
     REFRESH_TOKEN_EXPIRY: joi.number().positive().required(),
     EMAIL_VERIFY_TOKEN_EXPIRY: joi.number().positive().required(),
     PASSWORD_RESET_TOKEN_EXPIRY: joi.number().positive().required(),
+    LOG_DIR: joi.string().required(),
 })
 
 export const config = envSchema.validate(process.env, { allowUnknown: true })

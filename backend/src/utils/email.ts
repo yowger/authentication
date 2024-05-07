@@ -2,12 +2,14 @@ import { createTransport } from "nodemailer"
 
 import { logger } from "@/utils/logger"
 
+import { config } from "@/config/config"
+
 const transporter = createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
+    host: config.EMAIL_HOST,
+    port: config.EMAIL_PORT,
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
+        user: config.EMAIL_USER,
+        pass: config.EMAIL_PASSWORD,
     },
 })
 
@@ -18,11 +20,11 @@ export const sendVerificationCodeEmail = async (
     return new Promise((resolve, reject) => {
         transporter.sendMail(
             {
-                from: process.env.EMAIL_USER,
+                from: config.EMAIL_USER,
                 to: toEmail,
                 subject: "Verify your email",
                 text: `Please follow the given link to verify your email 
-            ${process.env.CLIENT_URL}/verify/${token}  
+            ${config.CLIENT_URL}/verify/${token}  
             Thanks`,
             },
             function (error, info) {
@@ -43,15 +45,15 @@ export const sendForgotPasswordEmail = async (
     token: string
 ) => {
     return new Promise((resolve, reject) => {
-        const expiryInMinutes = process.env.PASSWORD_RESET_TOKEN_EXPIRY / 60
+        const expiryInMinutes = config.PASSWORD_RESET_TOKEN_EXPIRY / 60
 
         transporter.sendMail(
             {
-                from: process.env.EMAIL_USER,
+                from: config.EMAIL_USER,
                 to: toEmail,
                 subject: "Verify your email",
                 text: `Click the link below to reset your password:
-        ${process.env.CLIENT_URL}/reset-password/${token}
+        ${config.CLIENT_URL}/reset-password/${token}
         
         This link will expire in ${expiryInMinutes} minutes.
         

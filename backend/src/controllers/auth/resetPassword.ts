@@ -11,7 +11,7 @@ import UnauthorizedError from "@/classes/errors/UnauthorizedError"
 import { verifyToken } from "@/utils/jwt"
 
 import type { Response, Request } from "express"
-import { TOKEN_TYPE } from "@/types/types"
+import { TOKEN_TYPE } from "@/types/token"
 
 const resetPassword = async (req: Request, res: Response) => {
     const emailVerificationToken = await findToken({

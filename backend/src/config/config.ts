@@ -1,10 +1,10 @@
 import dotenv from "dotenv"
 import joi from "joi"
-import path from "path"
 
-dotenv.config({ path: path.join(__dirname, "../../.env") })
+dotenv.config({ path: ".env" })
 
 export type EnvVars = {
+    PORT: number
     CLIENT_URL: string
     SERVER_URL: string
     NODE_ENV: "production" | "development"
@@ -25,7 +25,36 @@ export type EnvVars = {
     LOG_DIR: string
 }
 
+const AllowedEnvVars: Set<keyof EnvVars> = new Set([
+    "PORT",
+    "CLIENT_URL",
+    "SERVER_URL",
+    "NODE_ENV",
+    "DATABASE",
+    "ALLOWED_ORIGINS",
+    "EMAIL_HOST",
+    "EMAIL_PORT",
+    "EMAIL_USER",
+    "EMAIL_PASSWORD",
+    "ACCESS_TOKEN_SECRET",
+    "REFRESH_TOKEN_SECRET",
+    "EMAIL_VERIFY_TOKEN_SECRET",
+    "PASSWORD_RESET_TOKEN_SECRET",
+    "ACCESS_TOKEN_EXPIRY",
+    "REFRESH_TOKEN_EXPIRY",
+    "EMAIL_VERIFY_TOKEN_EXPIRY",
+    "PASSWORD_RESET_TOKEN_EXPIRY",
+    "LOG_DIR",
+])
+
+const filteredEnv = Object.fromEntries(
+    Object.entries(process.env).filter(([key]) => {
+        return AllowedEnvVars.has(key as keyof EnvVars)
+    })
+)
+
 const envSchema = joi.object<EnvVars>().keys({
+    PORT: joi.number(),
     CLIENT_URL: joi.string().required(),
     SERVER_URL: joi.string().required(),
     NODE_ENV: joi.string().valid("production", "development").required(),
@@ -46,4 +75,6 @@ const envSchema = joi.object<EnvVars>().keys({
     LOG_DIR: joi.string().required(),
 })
 
-export const config = envSchema.validate(process.env, { allowUnknown: true })
+export const validatedEnv = envSchema.validate(filteredEnv)
+
+export const config = validatedEnv.value as EnvVars

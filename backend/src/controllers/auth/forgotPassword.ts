@@ -7,9 +7,11 @@ import NotFoundError from "@/classes/errors/NotFoundError"
 import { generateToken } from "@/utils/jwt"
 import { sendForgotPasswordEmail } from "@/utils/email"
 
+import { config } from "@/config/config"
+
 import type { Response, Request } from "express"
 import createToken from "@/services/token/create"
-import { TOKEN_TYPE } from "@/types/types"
+import { TOKEN_TYPE } from "@/types/token"
 
 const forgotPassword = async (req: Request, res: Response) => {
     const user = await findUserByEmail(req.body.email)
@@ -36,7 +38,7 @@ const forgotPassword = async (req: Request, res: Response) => {
     )
 
     const expirationTime = new Date(
-        Date.now() + process.env.PASSWORD_RESET_TOKEN_EXPIRY * 1000
+        Date.now() + config.PASSWORD_RESET_TOKEN_EXPIRY * 1000
     )
     await createToken({
         user: user._id,

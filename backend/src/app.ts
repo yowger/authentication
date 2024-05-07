@@ -1,5 +1,3 @@
-import { config } from "@/config/env"
-
 import express from "express"
 import cors from "cors"
 import compression from "compression"
@@ -13,25 +11,18 @@ import errorHandler from "@/middlewares/errors/errorHandler"
 
 import NotFoundError from "@/classes/errors/NotFoundError"
 
-import { logger } from "./utils/logger"
+import { logger } from "@/utils/logger"
+
+import { config } from "@/config/config"
 
 process.on("uncaughtException", (error) => {
     logger.error("error", error)
 })
 
-if (config.error) {
-    const { details } = config.error
-    const message = details
-        .map((i) => i.message.replace(/['"]+/g, ""))
-        .join(",")
-
-    throw new Error(`Critical environment variable missing: ${message}`)
-}
-
 const app = express()
 
 const allowedOriginsSet = new Set(
-    process.env.ALLOWED_ORIGINS?.split(",").map((origin) => origin.trim()) || []
+    config.ALLOWED_ORIGINS?.split(",").map((origin) => origin.trim()) || []
 )
 
 app.use(

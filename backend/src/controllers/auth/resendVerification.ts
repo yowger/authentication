@@ -10,8 +10,10 @@ import NotFoundError from "@/classes/errors/NotFoundError"
 import { generateToken } from "@/utils/jwt"
 import { sendVerificationCodeEmail } from "@/utils/email"
 
+import { config } from "@/config/config"
+
 import type { Response, Request } from "express"
-import { TOKEN_TYPE } from "@/types/types"
+import { TOKEN_TYPE } from "@/types/token"
 
 const resendVerification = async (req: Request, res: Response) => {
     const user = await findUserByEmail(req.body.email)
@@ -41,7 +43,7 @@ const resendVerification = async (req: Request, res: Response) => {
     }
 
     const expirationTime = new Date(
-        Date.now() + process.env.EMAIL_VERIFY_TOKEN_EXPIRY * 1000
+        Date.now() + config.EMAIL_VERIFY_TOKEN_EXPIRY * 1000
     )
     existingToken.token = verificationToken
     existingToken.expiresAt = expirationTime

@@ -8,12 +8,14 @@ import {
 import DailyRotateFile from "winston-daily-rotate-file"
 import fs from "fs"
 
-const logDir = process.env.LOG_DIR
+import { config } from "@/config/config"
+
+const logDir = config.LOG_DIR
 if (!fs.existsSync(logDir)) {
     fs.mkdirSync(logDir)
 }
 
-const config = {
+const logConfig = {
     levels: {
         trace: 5,
         debug: 4,
@@ -32,7 +34,7 @@ const config = {
     },
 }
 
-const logLevel = process.env.NODE_ENV === "development" ? "trace" : "error"
+const logLevel = config.NODE_ENV === "development" ? "trace" : "error"
 
 const logFormat = format.combine(
     format.colorize(),
@@ -66,11 +68,11 @@ const dailyRotateFile = new DailyRotateFile({
     format: logFormat,
 })
 
-addColors(config.colors)
+addColors(logConfig.colors)
 
 const myLogger = createLogger({
     transports: [consoleTransport, dailyRotateFile],
-    levels: config.levels,
+    levels: logConfig.levels,
     exceptionHandlers: [dailyRotateFile],
     exitOnError: false,
 })

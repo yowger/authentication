@@ -6,18 +6,26 @@ import app from "./app"
 
 import { logger } from "@/utils/logger"
 
+import { config, validatedEnv } from "@/config/config"
+
 import type { Error as MongoError } from "mongoose"
 
-mongoose.connect(process.env.DATABASE)
+if (validatedEnv.error) {
+    const { details } = validatedEnv.error
+    const message = details
+        .map((i) => i.message.replace(/['"]+/g, ""))
+        .join(",")
 
+    throw new Error(`Critical environment variable missing: ${message}`)
+}
+
+mongoose.connect(config.DATABASE)
 mongoose.connection.on("connected", () => {
     logger.info("Mongoose default connection open")
 })
-
 mongoose.connection.on("error", (error: MongoError) => {
     logger.error("Mongoose default connection error", error)
 })
-
 mongoose.connection.on("disconnected", () => {
     logger.info("Mongoose default connection disconnected")
 })
@@ -31,10 +39,8 @@ process.on("SIGINT", () => {
     })
 })
 
-app.set("port", process.env.PORT || 8000)
-
+app.set("port", config.PORT || 8000)
 const port = app.get("port")
-
 const server = app
     .listen(port, () => {
         const address = server.address()

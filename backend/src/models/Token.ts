@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose"
 
-import { TOKEN_TYPE } from "@/types/types"
+import { TOKEN_TYPE } from "@/types/token"
 import type { Types } from "mongoose"
 
 export const { EMAIL_VERIFY_TOKEN, PASSWORD_RESET_TOKEN } = TOKEN_TYPE

@@ -2,9 +2,11 @@ import jwt from "jsonwebtoken"
 
 import { logger } from "@/utils/logger"
 
+import { config } from "@/config/config"
+
 import type { JwtPayload } from "jsonwebtoken"
 import { Types } from "mongoose"
-import { type TokenType, TOKEN_TYPE } from "@/types/types"
+import { type TokenType, TOKEN_TYPE } from "@/types/token"
 
 type TokenPayload<T extends TokenType> =
     T extends typeof TOKEN_TYPE.ACCESS_TOKEN
@@ -23,20 +25,20 @@ type TokenConfig = {
 }
 const tokenConfigs: Record<TokenType, TokenConfig> = {
     ACCESS_TOKEN: {
-        secret: process.env.ACCESS_TOKEN_SECRET,
-        expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+        secret: config.ACCESS_TOKEN_SECRET,
+        expiresIn: config.ACCESS_TOKEN_EXPIRY,
     },
     REFRESH_TOKEN: {
-        secret: process.env.REFRESH_TOKEN_SECRET,
-        expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
+        secret: config.REFRESH_TOKEN_SECRET,
+        expiresIn: config.REFRESH_TOKEN_EXPIRY,
     },
     EMAIL_VERIFY_TOKEN: {
-        secret: process.env.EMAIL_VERIFY_TOKEN_SECRET,
-        expiresIn: process.env.EMAIL_VERIFY_TOKEN_EXPIRY,
+        secret: config.EMAIL_VERIFY_TOKEN_SECRET,
+        expiresIn: config.EMAIL_VERIFY_TOKEN_EXPIRY,
     },
     PASSWORD_RESET_TOKEN: {
-        secret: process.env.PASSWORD_RESET_TOKEN_SECRET,
-        expiresIn: process.env.PASSWORD_RESET_TOKEN_EXPIRY,
+        secret: config.PASSWORD_RESET_TOKEN_SECRET,
+        expiresIn: config.PASSWORD_RESET_TOKEN_EXPIRY,
     },
 }
 

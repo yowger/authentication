@@ -8,6 +8,7 @@ import type { Response, Request } from "express"
 
 const refreshToken = async (req: Request, res: Response) => {
     const refreshToken = req.cookies.refresh_token
+
     if (!refreshToken) {
         throw new MissingTokenError("Missing refresh token.")
     }

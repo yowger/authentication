@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser"
 
 import authRouter from "@/routes/auth"
 import postRouter from "@/routes/post"
-import userRouter from "./routes/user"
+import userRouter from "@/routes/user"
 
 import errorHandler from "@/middlewares/errors/errorHandler"
 
@@ -31,9 +31,13 @@ app.use(
             if (allowedOriginsSet.has(origin) || !origin) {
                 callback(null, true)
             } else {
-                callback(new Error(`Origin '${origin}' not allowed by CORS`))
+                const errorMessage = `Origin '${origin}' not allowed by CORS`
+                logger.error("cors_disallowed_origin", errorMessage)
+                
+                callback(new Error(errorMessage))
             }
         },
+        credentials: true,
         optionsSuccessStatus: 200,
     })
 )

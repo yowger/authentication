@@ -9,6 +9,7 @@ export default function RegisterConfirmPage() {
                 the link to verify your account.
             </p>
 
+            <p>Did'n't receive the confirmation email?</p>
             <Link to="/resend-verification">
                 Click here to send another email verification.
             </Link>

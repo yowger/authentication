@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
 
-import { axios } from "@/lib/axios"
+import { axiosPublic } from "@/lib/axios"
 
 import type { AxiosError } from "axios"
 import type { MutateConfig } from "@/lib/reactQuery"
@@ -12,18 +12,19 @@ export type RegisterData = {
         password: string
     }
 }
-
 export type RegisterResponse = {
     message: string
 }
-
 export const register = ({ data }: RegisterData): Promise<RegisterResponse> => {
-    return axios.post("/api/register", data)
+    return axiosPublic.post("/api/register", data)
 }
 
-export const useRegister = (config?: MutateConfig<RegisterResponse>) => {
+type UseRegisterOptions = {
+    config?: MutateConfig<RegisterResponse>
+}
+export const useRegister = ({ config }: UseRegisterOptions = {}) => {
     return useMutation<RegisterResponse, AxiosError, RegisterData>({
-        mutationFn: register,
         ...config,
+        mutationFn: register,
     })
 }

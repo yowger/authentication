@@ -37,7 +37,7 @@ const formSchema = z.object({
 })
 
 type RegisterFormProps = {
-    onSuccess: (userId: string) => void
+    onSuccess: () => void
 }
 
 export default function RegisterForm({ onSuccess }: RegisterFormProps) {
@@ -60,12 +60,16 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
                 onError: (error) => {
                     const status = error.response?.status
 
-                    if (status === 409) {
-                        setErrorMessage("Email already taken")
-                    } else {
-                        setErrorMessage(
-                            "Registration Failed. Please try again later"
-                        )
+                    switch (status) {
+                        case 409:
+                            setErrorMessage(
+                                "Email address already in use. Please try a different email."
+                            )
+                            break
+                        default:
+                            setErrorMessage(
+                                "An unexpected error occurred. Please try again later."
+                            )
                     }
                 },
             }

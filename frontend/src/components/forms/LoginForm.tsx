@@ -1,3 +1,5 @@
+import { useState } from "react"
+
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form"
@@ -13,6 +15,7 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { useLogin } from "@/api/auth/useLogin"
 
 const formSchema = z.object({
     email: z
@@ -29,6 +32,10 @@ type LoginFormProps = {
 }
 
 export default function LoginForm({ onSuccess }: LoginFormProps) {
+    const loginMutation = useLogin()
+    
+    const [errorMessage, setErrorMessage] = useState("")
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -38,6 +45,40 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
     })
 
     function onSubmit(values: z.infer<typeof formSchema>) {
+        loginMutation.mutate(
+            { data: values },
+            {
+                onSuccess: () => {
+                    onSuccess()
+                    setErrorMessage("")
+                },
+                onError: (error) => {
+                    const status = error.response?.status
+
+                    switch (status) {
+                        case 401:
+                            setErrorMessage(
+                                "Login credentials are incorrect. Please try again."
+                            )
+                            break
+                        case 403:
+                            setErrorMessage(
+                                "Email verification required. Please check your inbox for the verification link."
+                            )
+                            break
+                        case 404:
+                            setErrorMessage(
+                                "The email address you entered was not found."
+                            )
+                            break
+                        default:
+                            setErrorMessage(
+                                "An unexpected error occurred. Please try again later."
+                            )
+                    }
+                },
+            }
+        )
         onSuccess()
     }
 
@@ -77,6 +118,8 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
                             </FormItem>
                         )}
                     />
+
+                    {errorMessage && <FormMessage>{errorMessage}</FormMessage>}
 
                     <Link to="/register">Register instead</Link>
                     <Button type="submit">Login</Button>

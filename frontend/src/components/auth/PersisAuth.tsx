@@ -20,5 +20,7 @@ export default function PersisAuth() {
         return <div>Loading...</div>
     }
 
-    return <Outlet />
+    if (refreshAuthMutation.isSuccess) {
+        return <Outlet />
+    }
 }

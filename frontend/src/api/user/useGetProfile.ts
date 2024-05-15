@@ -20,7 +20,6 @@ type UseLoginOptions = {
 // todo - refactor
 export const useGetProfile = ({ config }: UseLoginOptions = {}) => {
     const axiosPrivate = useAxiosAuth()
-
     const getProfile = (): Promise<Profile> => {
         return axiosPrivate.get("/api/user/me")
     }

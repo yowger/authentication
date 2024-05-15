@@ -33,7 +33,7 @@ type LoginFormProps = {
 
 export default function LoginForm({ onSuccess }: LoginFormProps) {
     const loginMutation = useLogin()
-    
+
     const [errorMessage, setErrorMessage] = useState("")
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -79,7 +79,6 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
                 },
             }
         )
-        onSuccess()
     }
 
     return (

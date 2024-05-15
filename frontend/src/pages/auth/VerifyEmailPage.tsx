@@ -12,6 +12,7 @@ export default function VerifyEmailPage() {
 
     useEffect(() => {
         verifyEmailMutation.mutate({ id })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     // verifyEmailMutation.
     return <div>VerifyEmailPage</div>

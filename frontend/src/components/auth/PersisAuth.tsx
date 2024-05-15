@@ -6,10 +6,10 @@ import { useEffect } from "react"
 export default function PersisAuth() {
     const location = useLocation()
     const refreshAuthMutation = useRefreshAuth()
-    console.log("🚀 ~ PersisAuth ~ refreshAuthMutation:", refreshAuthMutation)
 
     useEffect(() => {
         refreshAuthMutation.mutate()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     if (refreshAuthMutation.isError) {

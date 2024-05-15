@@ -6,6 +6,7 @@ import RegisterConfirmPage from "@/pages/auth/RegisterConfirmPage"
 import ResendVerificationPage from "./pages/auth/ResendVerificationPage"
 import VerifyEmailPage from "./pages/auth/VerifyEmailPage"
 import PersisAuth from "./components/auth/PersisAuth"
+import ProfilePage from "./pages/profile/ProfilePage"
 
 export default function App() {
     return (
@@ -23,7 +24,7 @@ export default function App() {
                     element={<RegisterConfirmPage />}
                 />
                 <Route element={<PersisAuth />}>
-                    <Route path="/" element={<p>Authenticated page</p>} />
+                    <Route path="/" element={<ProfilePage />} />
                 </Route>
             </Routes>
         </BrowserRouter>

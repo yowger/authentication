@@ -17,6 +17,7 @@ const authenticate = async (
         }
 
         const token = req.headers.authorization.split(" ")[1]
+        console.log("🚀 ~ token:", token)
 
         const decoded = verifyToken("ACCESS_TOKEN", token)
 

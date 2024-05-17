@@ -32,7 +32,7 @@ type LoginFormProps = {
 }
 
 export default function LoginForm({ onSuccess }: LoginFormProps) {
-    const loginMutation = useLogin()
+    const { mutate } = useLogin()
 
     const [errorMessage, setErrorMessage] = useState("")
 
@@ -45,7 +45,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
     })
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        loginMutation.mutate(
+        mutate(
             { data: values },
             {
                 onSuccess: () => {

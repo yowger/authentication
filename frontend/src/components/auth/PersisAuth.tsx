@@ -5,22 +5,21 @@ import { useEffect } from "react"
 
 export default function PersisAuth() {
     const location = useLocation()
-    const refreshAuthMutation = useRefreshAuth()
+    const { mutate, isPending, isError, isSuccess } = useRefreshAuth()
 
     useEffect(() => {
-        refreshAuthMutation.mutate()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+        mutate()
+    }, [mutate])
 
-    if (refreshAuthMutation.isError) {
+    if (isError) {
         return <Navigate to="/login" state={{ from: location }} replace />
     }
 
-    if (refreshAuthMutation.isPending) {
+    if (isPending) {
         return <div>Loading...</div>
     }
 
-    if (refreshAuthMutation.isSuccess) {
+    if (isSuccess) {
         return <Outlet />
     }
 }

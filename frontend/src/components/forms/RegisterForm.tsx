@@ -41,7 +41,7 @@ type RegisterFormProps = {
 }
 
 export default function RegisterForm({ onSuccess }: RegisterFormProps) {
-    const registerMutation = useRegister()
+    const { mutate } = useRegister()
 
     const [errorMessage, setErrorMessage] = useState("")
 
@@ -50,7 +50,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
     })
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        registerMutation.mutate(
+        mutate(
             { data: values },
             {
                 onSuccess: () => {

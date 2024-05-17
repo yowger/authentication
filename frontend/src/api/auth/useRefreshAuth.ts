@@ -23,7 +23,6 @@ export const useRefreshAuth = ({ config }: UseRefreshAuthOptions = {}) => {
 
     return useMutation<RefreshAuthResponse, AxiosError>({
         onSuccess: (refreshAuthData) => {
-            console.log("settings auth")
             setAuth({ accessToken: refreshAuthData.accessToken })
         },
         ...config,

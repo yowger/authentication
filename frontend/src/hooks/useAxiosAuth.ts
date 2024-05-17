@@ -2,7 +2,7 @@ import { useEffect } from "react"
 
 import { axiosAuth } from "@/lib/axios"
 
-import { useRefreshAuth } from "@/api/auth/useRefreshAuth"
+import { useRefreshAuth } from "@/features/auth/api/useRefreshAuth"
 
 import useAuthContext from "@/hooks/useAuthContext"
 

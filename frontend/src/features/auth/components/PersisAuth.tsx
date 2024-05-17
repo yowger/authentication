@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom"
 
-import { useRefreshAuth } from "@/api/auth/useRefreshAuth"
+import { useRefreshAuth } from "@/features/auth/api/useRefreshAuth"
 import { useEffect } from "react"
 
 export default function PersisAuth() {

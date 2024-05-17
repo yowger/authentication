@@ -1,12 +1,12 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 
-import LoginPage from "@/pages/auth/LoginPage"
-import RegisterPage from "@/pages/auth/RegisterPage"
-import RegisterConfirmPage from "@/pages/auth/RegisterConfirmPage"
-import ResendVerificationPage from "./pages/auth/ResendVerificationPage"
-import VerifyEmailPage from "./pages/auth/VerifyEmailPage"
-import PersisAuth from "./components/auth/PersisAuth"
-import ProfilePage from "./pages/profile/ProfilePage"
+import LoginPage from "@/features/auth/pages/LoginPage"
+import RegisterPage from "@/features/auth/pages/RegisterPage"
+import RegisterConfirmPage from "@/features/auth/pages/RegisterConfirmPage"
+import ResendVerificationPage from "./features/auth/pages/ResendVerificationPage"
+import VerifyEmailPage from "./features/auth/pages/VerifyEmailPage"
+import PersisAuth from "./features/auth/components/PersisAuth"
+import ProfilePage from "./features/profile/page/ProfilePage"
 
 export default function App() {
     return (

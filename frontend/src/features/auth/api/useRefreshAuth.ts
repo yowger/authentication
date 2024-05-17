@@ -2,9 +2,10 @@ import { useMutation } from "@tanstack/react-query"
 
 import { axiosPublic } from "@/lib/axios"
 
+import useAuthContext from "@/hooks/useAuthContext"
+
 import type { AxiosError } from "axios"
 import type { MutateConfig } from "@/lib/reactQuery"
-import useAuthContext from "@/hooks/useAuthContext"
 
 export type RefreshAuthResponse = {
     accessToken: string

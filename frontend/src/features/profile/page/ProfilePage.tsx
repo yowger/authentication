@@ -1,4 +1,4 @@
-import { useGetProfile } from "@/api/user/useGetProfile"
+import { useGetProfile } from "@/features/profile/api/useGetProfile"
 
 export default function ProfilePage() {
     const profileQuery = useGetProfile()

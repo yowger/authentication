@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom"
 
-import { useVerifyEmail } from "@/api/auth/useVerifyEmail"
+import { useVerifyEmail } from "@/features/auth/api/useVerifyEmail"
 import { invariant } from "@/utils/invariant"
 import { useEffect } from "react"
 

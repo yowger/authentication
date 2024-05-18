@@ -129,7 +129,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
 
                     {errorMessage && <FormMessage>{errorMessage}</FormMessage>}
 
-                    <Link to="/login">Login instead</Link>
+                    <Link to="/">Login instead</Link>
                     <Button type="submit">Sign up</Button>
                 </form>
             </Form>

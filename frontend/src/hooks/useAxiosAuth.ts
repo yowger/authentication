@@ -4,7 +4,7 @@ import { axiosAuth } from "@/lib/axios"
 
 import { useRefreshAuth } from "@/features/auth/api/useRefreshAuth"
 
-import useAuthContext from "@/hooks/useAuthContext"
+import useAuthContext from "@/features/auth/hooks/useAuthContext"
 
 const useAxiosAuth = () => {
     const { auth } = useAuthContext()

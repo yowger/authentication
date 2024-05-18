@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query"
 
 import { axiosPublic } from "@/lib/axios"
 
-import useAuthContext from "@/hooks/useAuthContext"
+import useAuthContext from "@/features/auth/hooks/useAuthContext"
 
 import type { AxiosError } from "axios"
 import type { MutateConfig } from "@/lib/reactQuery"
@@ -27,11 +27,11 @@ type UseLoginOptions = {
     config?: MutateConfig<LoginResponse>
 }
 export const useLogin = ({ config }: UseLoginOptions = {}) => {
-    const { setAuth } = useAuthContext()
+    const { setAuthStatus } = useAuthContext()
 
     return useMutation<LoginResponse, AxiosError, LoginData>({
         onSuccess: (refreshAuthData) => {
-            setAuth({ accessToken: refreshAuthData.accessToken })
+            setAuthStatus(refreshAuthData.accessToken)
         },
         ...config,
         mutationFn: login,

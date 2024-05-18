@@ -4,7 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query"
 
 import { queryClient } from "@/lib/reactQuery.ts"
 
-import { AuthContextProvider } from "@/features/context/authContext"
+import { AuthContextProvider } from "@/features/auth/context/authContext"
 
 import App from "@/App.tsx"
 

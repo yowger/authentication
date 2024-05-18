@@ -3,7 +3,7 @@ import { Navigate, Outlet, useLocation } from "react-router-dom"
 
 import { useRefreshAuth } from "@/features/auth/api/useRefreshAuth"
 
-export default function ProtectedRoutes() {
+export default function PersistAuth() {
     const location = useLocation()
     const { mutate, isPending, isError, error, isSuccess } = useRefreshAuth()
 

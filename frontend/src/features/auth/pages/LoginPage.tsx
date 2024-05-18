@@ -10,7 +10,7 @@ export default function LoginPage() {
     const onSuccess = () => {
         const origin = location.state?.from.pathname || "/"
 
-        return navigate(origin)
+        return navigate(origin, { replace: true })
     }
 
     return (

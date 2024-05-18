@@ -6,7 +6,6 @@ import type { Response, Request } from "express"
 
 const read = async (req: Request, res: Response) => {
     const user = await findUserById(req.user)
-    console.log("🚀 ~ read ~ user:", user)
 
     if (!user) {
         throw new NotFoundError("User not found")

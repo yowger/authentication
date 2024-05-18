@@ -27,7 +27,7 @@ export default function PersistAuth() {
 
         return (
             <Navigate
-                to="/login"
+                to="/auth/login"
                 state={{
                     from: location,
                     message: errorMessage,

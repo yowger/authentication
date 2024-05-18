@@ -1,9 +1,11 @@
-import MiscRoutes from "@/features/misc/routes/MiscRoutes"
+import { lazy } from "react"
+
+const AboutPage = lazy(() => import("@/features/misc/pages/AboutPage"))
 
 const CommonRoutes = [
     {
         path: "/about",
-        element: <MiscRoutes />,
+        element: <AboutPage />,
     },
 ]
 

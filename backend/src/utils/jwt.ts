@@ -69,9 +69,6 @@ export function verifyToken<T extends TokenType>(
 ): (TokenPayload<T> & JwtPayload) | null {
     try {
         const secretKey = tokenConfigs[type].secret
-        console.log("🚀 ~ secretKey:", secretKey)
-        console.log("🚀 ~ token:", token)
-        console.log("🚀 ~ type:", type)
 
         return jwt.verify(token, secretKey) as TokenPayload<T> & JwtPayload
     } catch (error) {

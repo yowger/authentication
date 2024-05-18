@@ -27,11 +27,11 @@ type UseLoginOptions = {
     config?: MutateConfig<LoginResponse>
 }
 export const useLogin = ({ config }: UseLoginOptions = {}) => {
-    const { setAuthStatus } = useAuthContext()
+    const { setAuth } = useAuthContext()
 
     return useMutation<LoginResponse, AxiosError, LoginData>({
         onSuccess: (refreshAuthData) => {
-            setAuthStatus(refreshAuthData.accessToken)
+            setAuth({ accessToken: refreshAuthData.accessToken })
         },
         ...config,
         mutationFn: login,

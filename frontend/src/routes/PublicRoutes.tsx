@@ -2,7 +2,7 @@ import AuthRoutes from "@/features/auth/routes/AuthRoutes"
 
 const PublicRoutes = [
     {
-        path: "/*",
+        path: "/auth/*",
         element: <AuthRoutes />,
     },
 ]

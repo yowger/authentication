@@ -6,12 +6,11 @@ const ProfilePage = lazy(() => import("@/features/profile/pages/ProfilePage"))
 
 const ProtectedRoutes = [
     {
-        path: "/*",
+        path: "/",
         element: <PersistAuth />,
         children: [
-            { path: "", element: <ProfilePage /> },
+            { path: "/", element: <ProfilePage /> },
             { path: "post/*", element: <PostRoutes /> },
-            { path: "*", element: <p>Page not found</p> },
         ],
     },
 ]

@@ -122,7 +122,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
 
                     {errorMessage && <FormMessage>{errorMessage}</FormMessage>}
 
-                    <Link to="/register">Register instead</Link>
+                    <Link to="/auth/register">Register instead</Link>
                     <Button type="submit">Login</Button>
                 </form>
             </Form>

@@ -7,6 +7,7 @@ const CommonRoutes = [
         path: "/about",
         element: <AboutPage />,
     },
+    { path: "*", element: <p>Page not found</p> },
 ]
 
 export default CommonRoutes

@@ -62,6 +62,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
 
                     switch (status) {
                         case 409:
+                            form.setFocus("email")
                             setErrorMessage(
                                 "Email address already in use. Please try a different email."
                             )

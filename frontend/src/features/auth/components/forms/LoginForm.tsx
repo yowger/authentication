@@ -57,6 +57,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
 
                     switch (status) {
                         case 401:
+                            form.setFocus("email")
                             setErrorMessage(
                                 "Login credentials are incorrect. Please try again."
                             )
@@ -67,6 +68,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
                             )
                             break
                         case 404:
+                            form.setFocus("email")
                             setErrorMessage(
                                 "The email address you entered was not found."
                             )

@@ -15,7 +15,7 @@ import {
     resendVerificationLimiter,
     resetPasswordLimiter,
     verifyLimiter,
-} from "@/middlewares/limiter"
+} from "@/middlewares/limiter/auth/"
 
 const authRouter = express.Router()
 

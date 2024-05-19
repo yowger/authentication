@@ -1,4 +1,4 @@
-import UnauthorizedError from "@/classes/errors/UnauthorizedError"
+import UnauthorizedError from "@/handler/subtypes/UnauthorizedError"
 
 import type { Request, Response, NextFunction } from "express"
 import { verifyToken } from "@/utils/jwt"

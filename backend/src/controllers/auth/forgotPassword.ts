@@ -1,8 +1,8 @@
 import findUserByEmail from "@/services/user/findByEmail"
 import findToken from "@/services/token/find"
 
-import EmailSendingError from "@/classes/errors/EmailSendingError"
-import NotFoundError from "@/classes/errors/NotFoundError"
+import EmailSendingError from "@/handler/subtypes/EmailSendingError"
+import NotFoundError from "@/handler/subtypes/NotFoundError"
 
 import { generateToken } from "@/utils/jwt"
 import { sendForgotPasswordEmail } from "@/utils/email"

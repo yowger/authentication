@@ -5,8 +5,8 @@ import updateUser from "@/services/user/update"
 import findToken from "@/services/token/find"
 import removeToken from "@/services/token/remove"
 
-import NotFoundError from "@/classes/errors/NotFoundError"
-import UnauthorizedError from "@/classes/errors/UnauthorizedError"
+import NotFoundError from "@/handler/subtypes/NotFoundError"
+import UnauthorizedError from "@/handler/subtypes/UnauthorizedError"
 
 import { verifyToken } from "@/utils/jwt"
 

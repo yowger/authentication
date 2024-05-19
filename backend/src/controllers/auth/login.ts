@@ -6,9 +6,9 @@ import { generateToken } from "@/utils/jwt"
 
 import { refreshTokenConfig } from "@/config/cookies"
 
-import ForbiddenError from "@/classes/errors/ForbiddenError"
-import NotFoundError from "@/classes/errors/NotFoundError"
-import UnauthorizedError from "@/classes/errors/UnauthorizedError"
+import ForbiddenError from "@/handler/subtypes/ForbiddenError"
+import NotFoundError from "@/handler/subtypes/NotFoundError"
+import UnauthorizedError from "@/handler/subtypes/UnauthorizedError"
 
 import type { Response, Request } from "express"
 

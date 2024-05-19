@@ -1,4 +1,4 @@
-import MissingTokenError from "@/classes/errors/MissingTokenError"
+import MissingTokenError from "@/handler/subtypes/MissingTokenError"
 
 import { generateToken, verifyToken } from "@/utils/jwt"
 

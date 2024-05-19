@@ -1,6 +1,6 @@
 import Joi from "joi"
 
-import BadRequestError from "@/classes/errors/BadRequestError"
+import BadRequestError from "@/handler/subtypes/BadRequestError"
 
 import type { NextFunction, Request, Response } from "express"
 

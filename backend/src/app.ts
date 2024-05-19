@@ -10,7 +10,7 @@ import userRouter from "@/routes/user"
 
 import errorHandler from "@/middlewares/errors/errorHandler"
 
-import NotFoundError from "@/classes/errors/NotFoundError"
+import NotFoundError from "@/handler/subtypes/NotFoundError"
 
 import { logger } from "@/utils/logger"
 

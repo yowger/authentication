@@ -1,6 +1,6 @@
 import findUserById from "@/services/user/findById"
 
-import NotFoundError from "@/classes/errors/NotFoundError"
+import NotFoundError from "@/handler/subtypes/NotFoundError"
 
 import type { Response, Request } from "express"
 

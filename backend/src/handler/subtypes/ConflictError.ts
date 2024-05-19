@@ -1,6 +1,6 @@
-import BaseError from "./BaseError"
+import BaseError from "../BaseError"
 
-import { ResponseStatus } from "./types"
+import { ResponseStatus } from "../types"
 
 export default class ConflictError extends BaseError {
     constructor(description = "Resource conflict") {

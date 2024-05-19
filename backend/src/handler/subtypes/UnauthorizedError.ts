@@ -1,6 +1,6 @@
-import BaseError from "./BaseError"
+import BaseError from "../BaseError"
 
-import { ResponseStatus } from "./types"
+import { ResponseStatus } from "../types"
 
 export default class UnauthorizedError extends BaseError {
     constructor(description = "Unauthorized access") {

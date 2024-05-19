@@ -1,4 +1,4 @@
-import BaseError from "@/classes/errors/BaseError"
+import BaseError from "@/handler/BaseError"
 
 import { Error } from "mongoose"
 import type {

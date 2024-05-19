@@ -5,9 +5,9 @@ import createToken from "@/services/token/create"
 import findUserByEmail from "@/services/user/findByEmail"
 import removeUserById from "@/services/user/remove"
 
-import ConflictError from "@/classes/errors/ConflictError"
-import EmailSendingError from "@/classes/errors/EmailSendingError"
-import InternalServerError from "@/classes/errors/InternalServerError"
+import ConflictError from "@/handler/subtypes/ConflictError"
+import EmailSendingError from "@/handler/subtypes/EmailSendingError"
+import InternalServerError from "@/handler/subtypes/InternalServerError"
 
 import { generateToken } from "@/utils/jwt"
 import { sendVerificationCodeEmail } from "@/utils/email"

@@ -1,10 +1,11 @@
 import type { CookieOptions } from "express"
 
-import { config } from "./config"
+import { config } from "../env"
 
 export const refreshTokenConfig: CookieOptions = {
     httpOnly: true,
     secure: true,
+    // only for testing in thunderclient
     // httpOnly: false,
     // secure: false,
     sameSite: "none",

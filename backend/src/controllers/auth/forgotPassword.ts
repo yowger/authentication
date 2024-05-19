@@ -7,7 +7,7 @@ import NotFoundError from "@/handler/subtypes/NotFoundError"
 import { generateToken } from "@/utils/jwt"
 import { sendForgotPasswordEmail } from "@/utils/email"
 
-import { config } from "@/config/config"
+import { config } from "@/config/env"
 
 import type { Response, Request } from "express"
 import createToken from "@/services/token/create"

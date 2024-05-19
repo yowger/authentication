@@ -14,7 +14,7 @@ import NotFoundError from "@/handler/subtypes/NotFoundError"
 
 import { logger } from "@/utils/logger"
 
-import { config } from "@/config/config"
+import corsOptions from "@/config/cors"
 
 process.on("uncaughtException", (error) => {
     logger.error("error", error)
@@ -22,26 +22,7 @@ process.on("uncaughtException", (error) => {
 
 const app = express()
 
-const allowedOriginsSet = new Set(
-    config.ALLOWED_ORIGINS?.split(",").map((origin) => origin.trim()) || []
-)
-
-app.use(
-    cors({
-        origin: (origin, callback) => {
-            if (allowedOriginsSet.has(origin) || !origin) {
-                callback(null, true)
-            } else {
-                const errorMessage = `Origin '${origin}' not allowed by CORS`
-                logger.error("cors_disallowed_origin", errorMessage)
-
-                callback(new Error(errorMessage))
-            }
-        },
-        credentials: true,
-        optionsSuccessStatus: 200,
-    })
-)
+app.use(cors(corsOptions))
 
 app.use(cookieParser())
 app.use(express.json({ limit: "5mb" }))

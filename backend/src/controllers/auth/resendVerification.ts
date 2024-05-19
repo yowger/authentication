@@ -10,7 +10,7 @@ import NotFoundError from "@/handler/subtypes/NotFoundError"
 import { generateToken } from "@/utils/jwt"
 import { sendVerificationCodeEmail } from "@/utils/email"
 
-import { config } from "@/config/config"
+import { config } from "@/config/env"
 
 import type { Response, Request } from "express"
 import { TOKEN_TYPE } from "@/types/token"

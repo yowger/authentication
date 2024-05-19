@@ -6,7 +6,7 @@ import app from "./app"
 
 import { logger } from "@/utils/logger"
 
-import { config, validatedEnv } from "@/config/config"
+import { config, validatedEnv } from "@/config/env"
 
 import type { Error as MongoError } from "mongoose"
 

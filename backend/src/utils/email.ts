@@ -2,7 +2,7 @@ import { createTransport } from "nodemailer"
 
 import { logger } from "@/utils/logger"
 
-import { config } from "@/config/config"
+import { config } from "@/config/env"
 
 const transporter = createTransport({
     host: config.EMAIL_HOST,

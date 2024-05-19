@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken"
 
 import { logger } from "@/utils/logger"
 
-import { config } from "@/config/config"
+import { config } from "@/config/env"
 
 import type { JwtPayload } from "jsonwebtoken"
 import { Types } from "mongoose"

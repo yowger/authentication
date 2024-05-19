@@ -8,7 +8,7 @@ import {
 import DailyRotateFile from "winston-daily-rotate-file"
 import fs from "fs"
 
-import { config } from "@/config/config"
+import { config } from "@/config/env"
 
 const logDir = config.LOG_DIR
 if (!fs.existsSync(logDir)) {

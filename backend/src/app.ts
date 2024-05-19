@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors"
 import compression from "compression"
 import cookieParser from "cookie-parser"
+// import expressListEndpoints from "express-list-endpoints"
 
 import authRouter from "@/routes/auth"
 import postRouter from "@/routes/post"
@@ -33,7 +34,7 @@ app.use(
             } else {
                 const errorMessage = `Origin '${origin}' not allowed by CORS`
                 logger.error("cors_disallowed_origin", errorMessage)
-                
+
                 callback(new Error(errorMessage))
             }
         },
@@ -57,5 +58,9 @@ app.use("/api/user", userRouter)
 app.use((req, res, next) => next(new NotFoundError("Api url not found.")))
 
 app.use(errorHandler)
+
+// testing - list all endpoints
+// const endpoints = expressListEndpoints(app);
+// console.log(endpoints);
 
 export default app

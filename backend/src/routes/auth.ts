@@ -6,26 +6,53 @@ import authSchema from "@/services/auth/schema"
 
 import asyncHandler from "@/middlewares/errors/asyncHandler"
 import validator from "@/middlewares/validator"
+import {
+    loginLimiter,
+    logoutLimiter,
+    forgotPasswordLimiter,
+    refreshLimiter,
+    registerLimiter,
+    resendVerificationLimiter,
+    resetPasswordLimiter,
+    verifyLimiter,
+} from "@/middlewares/limiter"
 
 const authRouter = express.Router()
 
 authRouter
     .route("/login")
-    .post(validator(authSchema.login), asyncHandler(authController.login))
-authRouter.route("/logout").post(asyncHandler(authController.logout))
+    .post(
+        loginLimiter,
+        validator(authSchema.login),
+        asyncHandler(authController.login)
+    )
+authRouter
+    .route("/logout")
+    .post(logoutLimiter, asyncHandler(authController.logout))
 authRouter
     .route("/register")
-    .post(validator(authSchema.register), asyncHandler(authController.register))
-authRouter.route("/verify/:token").post(asyncHandler(authController.verify))
-authRouter.route("/refresh").post(asyncHandler(authController.refreshToken))
+    .post(
+        registerLimiter,
+        validator(authSchema.register),
+        asyncHandler(authController.register)
+    )
+authRouter
+    .route("/verify/:token")
+    .post(verifyLimiter, asyncHandler(authController.verify))
+authRouter
+    .route("/refresh")
+    .post(refreshLimiter, asyncHandler(authController.refreshToken))
 authRouter
     .route("/forgot-password")
-    .post(asyncHandler(authController.forgotPassword))
+    .post(forgotPasswordLimiter, asyncHandler(authController.forgotPassword))
 authRouter
     .route("/reset-password/:token")
-    .post(asyncHandler(authController.resetPassword))
+    .post(resetPasswordLimiter, asyncHandler(authController.resetPassword))
 authRouter
     .route("/resend-verification")
-    .post(asyncHandler(authController.resendVerification))
+    .post(
+        resendVerificationLimiter,
+        asyncHandler(authController.resendVerification)
+    )
 
 export default authRouter

@@ -1,7 +1,8 @@
 import UnauthorizedError from "@/handler/subtypes/UnauthorizedError"
 
-import type { Request, Response, NextFunction } from "express"
 import { verifyToken } from "@/utils/jwt"
+
+import type { Request, Response, NextFunction } from "express"
 
 const authenticate = async (
     req: Request,
